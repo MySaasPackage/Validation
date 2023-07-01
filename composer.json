@@ -1,0 +1,21 @@
+{
+    "name": "eclesi/validation",
+    "autoload": {
+        "psr-4": {
+            "Eclesi\\Validation\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": { "Eclesi\\Validator\\": "tests/" }
+    },
+    "authors": [
+        {
+            "name": "Alef Castelo",
+            "email": "alefaraujocastelo@gmail.com"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^10",
+        "friendsofphp/php-cs-fixer": "^3.19"
+    }
+}

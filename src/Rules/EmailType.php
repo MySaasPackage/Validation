@@ -4,24 +4,28 @@ declare(strict_types=1);
 
 namespace MySaasPackage\Validation\Rules;
 
-use MySaasPackage\Validation\RuleNode;
+use MySaasPackage\Validation\RuleValidationResult;
+use MySaasPackage\Validation\Utils\MessageFormatter;
 use MySaasPackage\Validation\Violation;
 
-class EmailType extends RuleNode
+class EmailType
 {
     public const REGEX = '/^[\w\-\.]+@([\w\-]+\.)+[\w\-]{2,5}$/';
 
-    public function getViolations(): array
-    {
-        return [
-            new Violation(
-                keyword: 'email.type.mismatch',
-            ),
-        ];
-    }
+    public const KEYWORD = 'email.type.mismatch';
 
-    protected function isValid(mixed $value): bool
+    public function validate(mixed $value): RuleValidationResult
     {
-        return (bool) preg_match(self::REGEX, (string) $value);
+        if ((bool) preg_match(self::REGEX, (string) $value)) {
+            return RuleValidationResult::ok();
+        }
+
+        return RuleValidationResult::failed(
+            new Violation(
+                keyword: self::KEYWORD,
+                args: $value,
+                message: MessageFormatter::format('The value provided must be a valid string, you provide "{value}"', ['value' => $value])
+            )
+        );
     }
 }

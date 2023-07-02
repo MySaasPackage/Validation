@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Eclesi\Validation\Rules;
+namespace MySaasPackage\Validation\Rules;
 
-use Eclesi\Validation\RuleNode;
+use MySaasPackage\Validation\RuleNode;
 
 class Length extends RuleNode
 {

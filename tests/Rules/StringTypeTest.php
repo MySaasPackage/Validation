@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Eclesi\Validation\Rules;
+namespace MySaasPackage\Validation\Rules;
 
 use PHPUnit\Framework\TestCase;
 

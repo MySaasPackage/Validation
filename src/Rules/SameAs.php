@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Eclesi\Validation\Rules;
+namespace MySaasPackage\Validation\Rules;
 
-use Eclesi\Validation\RuleNode;
-use Eclesi\Validation\ValidatorInput;
-use Eclesi\Validation\Violation;
+use MySaasPackage\Validation\RuleNode;
+use MySaasPackage\Validation\ValidatorInput;
+use MySaasPackage\Validation\Violation;
 use InvalidArgumentException;
 
 class SameAs extends RuleNode

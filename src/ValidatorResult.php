@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Eclesi\Validation;
+namespace MySaasPackage\Validation;
 
 class ValidatorResult
 {

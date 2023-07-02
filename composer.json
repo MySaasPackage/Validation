@@ -2,11 +2,11 @@
     "name": "eclesi/validation",
     "autoload": {
         "psr-4": {
-            "Eclesi\\Validation\\": "src/"
+            "MySaasPackage\\Validation\\": "src/"
         }
     },
     "autoload-dev": {
-        "psr-4": { "Eclesi\\Validator\\": "tests/" }
+        "psr-4": { "MySaasPackage\\Validator\\": "tests/" }
     },
     "authors": [
         {

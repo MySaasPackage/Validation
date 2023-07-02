@@ -2,24 +2,28 @@
 
 declare(strict_types=1);
 
-namespace Eclesi\Validation\Rules;
+namespace MySaasPackage\Validation\Rules;
 
-use Eclesi\Validation\RuleNode;
-use Eclesi\Validation\Violation;
+use MySaasPackage\Validation\RuleValidationResult;
+use MySaasPackage\Validation\Utils\MessageFormatter;
+use MySaasPackage\Validation\Violation;
 
-class IntegerType extends RuleNode
+class IntegerType
 {
-    public function getViolations(): array
-    {
-        return [
-            new Violation(
-                keyword: 'integer.type.mismatch',
-            ),
-        ];
-    }
+    public const KEYWORD = 'integer.type.mismatch';
 
-    protected function isValid(mixed $value): bool
+    public function validate(mixed $value): RuleValidationResult
     {
-        return is_int($value);
+        if (is_int($value)) {
+            return RuleValidationResult::ok();
+        }
+
+        return RuleValidationResult::failed(
+            new Violation(
+                keyword: self::KEYWORD,
+                args: $value,
+                message: MessageFormatter::format('The value must be a integer, got {type}', ['type' => gettype($value)])
+            )
+        );
     }
 }

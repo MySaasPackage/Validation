@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Eclesi\Validation\Rules;
+namespace MySaasPackage\Validation\Rules;
 
-use Eclesi\Validation\RuleValidationResult;
-use Eclesi\Validation\Utils\MessageFormatter;
-use Eclesi\Validation\Violation;
+use MySaasPackage\Validation\RuleValidationResult;
+use MySaasPackage\Validation\Utils\MessageFormatter;
+use MySaasPackage\Validation\Violation;
 
 class StringType
 {

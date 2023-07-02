@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Eclesi\Validation\Utils;
+namespace MySaasPackage\Validation\Utils;
 
 class MessageFormatter
 {

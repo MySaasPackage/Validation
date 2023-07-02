@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Eclesi\Validation\Rules;
+namespace MySaasPackage\Validation\Rules;
 
-use Eclesi\Validation\RuleNode;
-use Eclesi\Validation\Violation;
+use MySaasPackage\Validation\RuleNode;
+use MySaasPackage\Validation\Violation;
 
 class PhoneType extends RuleNode
 {

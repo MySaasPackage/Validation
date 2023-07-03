@@ -8,23 +8,23 @@ use PHPUnit\Framework\TestCase;
 
 final class EmailTypeTest extends TestCase
 {
-    protected EmailType $requiredRule;
+    protected EmailType $rule;
 
     public function setup(): void
     {
-        $this->requiredRule = new EmailType();
+        $this->rule = new EmailType();
     }
 
     public function testEmailTypeRuleSuccessfully(): void
     {
-        $result = $this->requiredRule->validate('valid@email.com');
+        $result = $this->rule->validate('valid@email.com');
         $this->assertTrue($result->isValid());
         $this->assertFalse($result->isNotValid());
     }
 
     public function testStringTypeRuleWithInvalidInput(): void
     {
-        $result = $this->requiredRule->validate('invalid@email');
+        $result = $this->rule->validate('invalid@email');
         $this->assertFalse($result->isValid());
         $this->assertTrue($result->isNotValid());
         $this->assertCount(1, $result->getViolations());

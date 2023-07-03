@@ -16,7 +16,7 @@ class RuleValidationResult
         return new RuleValidationResult($violations);
     }
 
-    public static function ok(): RuleValidationResult
+    public static function succeeded(): RuleValidationResult
     {
         return new RuleValidationResult();
     }
@@ -36,11 +36,11 @@ class RuleValidationResult
         return $this->violations;
     }
 
-    public function merge(RuleValidationResult $result): RuleValidationResult
+    public static function merge(RuleValidationResult ...$results): RuleValidationResult
     {
-        return new RuleValidationResult(
-            array_merge($this->violations, $result->getViolations())
-        );
+        $violations = array_map(static fn (RuleValidationResult $results) => $results->getViolations(), $results);
+
+        return new RuleValidationResult(...$violations);
     }
 
     public function __toArray(): array

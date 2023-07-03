@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace MySaasPackage\Validation\Rules;
 
+use MySaasPackage\Validation\RuleValidation;
 use MySaasPackage\Validation\RuleValidationResult;
 use MySaasPackage\Validation\Utils\MessageFormatter;
 use MySaasPackage\Validation\Violation;
 
-class EmailType
+class EmailType implements RuleValidation
 {
     public const REGEX = '/^[\w\-\.]+@([\w\-]+\.)+[\w\-]{2,5}$/';
 
@@ -17,7 +18,7 @@ class EmailType
     public function validate(mixed $value): RuleValidationResult
     {
         if ((bool) preg_match(self::REGEX, (string) $value)) {
-            return RuleValidationResult::ok();
+            return RuleValidationResult::succeeded();
         }
 
         return RuleValidationResult::failed(

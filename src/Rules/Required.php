@@ -4,17 +4,18 @@ declare(strict_types=1);
 
 namespace MySaasPackage\Validation\Rules;
 
+use MySaasPackage\Validation\RuleValidation;
 use MySaasPackage\Validation\RuleValidationResult;
 use MySaasPackage\Validation\Violation;
 
-class Required
+class Required implements RuleValidation
 {
     public const KEYWORD = 'value.required';
 
     public function validate(mixed $value = null): RuleValidationResult
     {
         if (null !== $value) {
-            return RuleValidationResult::ok();
+            return RuleValidationResult::succeeded();
         }
 
         return RuleValidationResult::failed(

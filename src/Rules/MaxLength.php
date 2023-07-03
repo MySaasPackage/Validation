@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace MySaasPackage\Validation\Rules;
 
-use MySaasPackage\Validation\RuleNode;
-use MySaasPackage\Validation\Violation;
 use InvalidArgumentException;
+use MySaasPackage\Validation\RuleValidation;
+use MySaasPackage\Validation\RuleValidationResult;
+use MySaasPackage\Validation\Utils\MessageFormatter;
+use MySaasPackage\Validation\Violation;
 
-class MaxLength extends RuleNode
+class MaxLength implements RuleValidation
 {
+    public const KEYWORD = 'max.length.mismatch';
+
     public function __construct(
         protected string|int $maxLength,
     ) {
@@ -20,24 +24,18 @@ class MaxLength extends RuleNode
         $this->maxLength = (int) $maxLength;
     }
 
-    public function getViolations(): array
+    public function validate(mixed $value): RuleValidationResult
     {
-        return [
-            new Violation(
-                keyword: 'max.length.mismatch',
-                args: [
-                    'maxLength' => $this->maxLength,
-                ],
-            ),
-        ];
-    }
-
-    protected function isValid(mixed $value): bool
-    {
-        if (!is_string($value)) {
-            return false;
+        if (is_string($value) && strlen($value) <= $this->maxLength) {
+            return RuleValidationResult::succeeded();
         }
 
-        return strlen($value) <= $this->maxLength;
+        return RuleValidationResult::failed(
+            new Violation(
+                keyword: self::KEYWORD,
+                args: $value,
+                message: MessageFormatter::format('Value must be less than {maxLength}', ['maxLength' => $this->maxLength])
+            )
+        );
     }
 }

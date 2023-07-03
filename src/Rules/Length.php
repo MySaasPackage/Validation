@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace MySaasPackage\Validation\Rules;
 
-use MySaasPackage\Validation\RuleNode;
+use MySaasPackage\Validation\RuleValidation;
+use MySaasPackage\Validation\RuleValidationResult;
 
-class Length extends RuleNode
+class Length implements RuleValidation
 {
     public function __construct(
         protected readonly MinLength $minLength,
@@ -14,21 +15,11 @@ class Length extends RuleNode
     ) {
     }
 
-    public function getViolations(): array
+    public function validate(mixed $value): RuleValidationResult
     {
-        return array_merge($this->minLength->getViolations(), $this->maxLength->getViolations());
-    }
+        $minValidationResult = $this->minLength->validate($value);
+        $maxValidationResult = $this->maxLength->validate($value);
 
-    protected function isValid(mixed $value): bool
-    {
-        if (!is_string($value)) {
-            return false;
-        }
-
-        if (!$this->minLength->isValid($value)) {
-            return false;
-        }
-
-        return $this->maxLength->isValid($value);
+        return RuleValidationResult::merge($minValidationResult, $maxValidationResult);
     }
 }

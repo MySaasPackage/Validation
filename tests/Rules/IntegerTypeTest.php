@@ -8,23 +8,23 @@ use PHPUnit\Framework\TestCase;
 
 final class IntegerTypeTest extends TestCase
 {
-    protected IntegerType $requiredRule;
+    protected IntegerType $rule;
 
     public function setup(): void
     {
-        $this->requiredRule = new IntegerType();
+        $this->rule = new IntegerType();
     }
 
     public function testIntegerTypeRuleSuccessfully(): void
     {
-        $result = $this->requiredRule->validate(8);
+        $result = $this->rule->validate(8);
         $this->assertTrue($result->isValid());
         $this->assertFalse($result->isNotValid());
     }
 
     public function testIntegerTypeRuleWithInvalidInput(): void
     {
-        $result = $this->requiredRule->validate('8');
+        $result = $this->rule->validate('8');
         $this->assertFalse($result->isValid());
         $this->assertTrue($result->isNotValid());
         $this->assertCount(1, $result->getViolations());

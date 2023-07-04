@@ -6,8 +6,8 @@ namespace MySaasPackage\Validation;
 
 class ChainedRule
 {
-    protected ChainRule|null $head = null;
-    protected ChainRule|null $tail = null;
+    protected Chain|null $head = null;
+    protected Chain|null $tail = null;
 
     public function __construct(
         protected array $rules = []
@@ -24,9 +24,9 @@ class ChainedRule
 
     public function add(Rule $rule): self
     {
-        $node = new ChainRule($rule);
+        $node = new Chain($rule);
 
-        if (!$this->head instanceof ChainRule) {
+        if (!$this->head instanceof Chain) {
             $this->head = $node;
             $this->tail = $node;
 
@@ -107,7 +107,7 @@ class ChainedRule
         return $this->validateChain($this->head, $value);
     }
 
-    protected function validateChain(ChainRule $node, mixed $value): ViolationsResult
+    protected function validateChain(Chain $node, mixed $value): ViolationsResult
     {
         $result = $node->validate($value);
 

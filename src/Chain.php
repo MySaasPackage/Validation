@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace MySaasPackage\Validation;
 
-class ChainRule
+class Chain
 {
-    public ChainRule|null $next = null;
+    public Chain|null $next = null;
 
     public function __construct(
         public readonly Rule $rule,
@@ -15,10 +15,10 @@ class ChainRule
 
     public function hasNext(): bool
     {
-        return $this->next instanceof ChainRule;
+        return $this->next instanceof Chain;
     }
 
-    public function setNextRule(ChainRule $rule): void
+    public function setNextRule(Chain $rule): void
     {
         $this->next = $rule;
     }

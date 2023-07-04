@@ -18,15 +18,15 @@ final class PhoneTypeTest extends TestCase
     public function testPhoneTypeRuleSuccessfully(): void
     {
         $result = $this->rule->validate('+52559999999');
-        $this->assertTrue($result->isValid());
-        $this->assertFalse($result->isNotValid());
+        $this->assertTrue($result->isSucceeded());
+        $this->assertFalse($result->isFailed());
     }
 
     public function testStringTypeRuleWithInvalidInput(): void
     {
         $result = $this->rule->validate('invalid');
-        $this->assertFalse($result->isValid());
-        $this->assertTrue($result->isNotValid());
+        $this->assertFalse($result->isSucceeded());
+        $this->assertTrue($result->isFailed());
         $this->assertCount(1, $result->getViolations());
         [$violation] = $result->getViolations();
         $this->assertEquals(PhoneType::KEYWORD, $violation->keyword);

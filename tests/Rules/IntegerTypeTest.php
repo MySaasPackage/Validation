@@ -18,15 +18,15 @@ final class IntegerTypeTest extends TestCase
     public function testIntegerTypeRuleSuccessfully(): void
     {
         $result = $this->rule->validate(8);
-        $this->assertTrue($result->isValid());
-        $this->assertFalse($result->isNotValid());
+        $this->assertTrue($result->isSucceeded());
+        $this->assertFalse($result->isFailed());
     }
 
     public function testIntegerTypeRuleWithInvalidInput(): void
     {
         $result = $this->rule->validate('8');
-        $this->assertFalse($result->isValid());
-        $this->assertTrue($result->isNotValid());
+        $this->assertFalse($result->isSucceeded());
+        $this->assertTrue($result->isFailed());
         $this->assertCount(1, $result->getViolations());
         [$violation] = $result->getViolations();
         $this->assertEquals(IntegerType::KEYWORD, $violation->keyword);

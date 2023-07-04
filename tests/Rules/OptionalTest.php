@@ -18,11 +18,11 @@ final class OptionalTest extends TestCase
     public function testOptionalRuleSuccessfully(): void
     {
         $result = $this->rule->validate();
-        $this->assertTrue($result->isValid());
-        $this->assertFalse($result->isNotValid());
+        $this->assertTrue($result->isSucceeded());
+        $this->assertFalse($result->isFailed());
 
         $result = $this->rule->validate('foo');
-        $this->assertTrue($result->isValid());
-        $this->assertFalse($result->isNotValid());
+        $this->assertTrue($result->isSucceeded());
+        $this->assertFalse($result->isFailed());
     }
 }

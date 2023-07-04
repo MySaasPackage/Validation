@@ -18,15 +18,15 @@ final class MaxLengthTest extends TestCase
     public function testMaxLengthRuleSuccessfully(): void
     {
         $result = $this->rule->validate('9999999');
-        $this->assertTrue($result->isValid());
-        $this->assertFalse($result->isNotValid());
+        $this->assertTrue($result->isSucceeded());
+        $this->assertFalse($result->isFailed());
     }
 
     public function testStringTypeRuleWithInvalidInput(): void
     {
         $result = $this->rule->validate('+525599999999');
-        $this->assertFalse($result->isValid());
-        $this->assertTrue($result->isNotValid());
+        $this->assertFalse($result->isSucceeded());
+        $this->assertTrue($result->isFailed());
         $this->assertCount(1, $result->getViolations());
         [$violation] = $result->getViolations();
         $this->assertEquals(MaxLength::KEYWORD, $violation->keyword);

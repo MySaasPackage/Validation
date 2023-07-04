@@ -18,15 +18,15 @@ final class LengthTest extends TestCase
     public function testLengthRuleSuccessfully(): void
     {
         $result = $this->rule->validate('99999999');
-        $this->assertTrue($result->isValid());
-        $this->assertFalse($result->isNotValid());
+        $this->assertTrue($result->isSucceeded());
+        $this->assertFalse($result->isFailed());
     }
 
     public function testStringTypeRuleWithInvalidInput(): void
     {
         $result = $this->rule->validate('+525599999999');
-        $this->assertFalse($result->isValid());
-        $this->assertTrue($result->isNotValid());
+        $this->assertFalse($result->isSucceeded());
+        $this->assertTrue($result->isFailed());
         $this->assertCount(1, $result->getViolations());
         [$violation] = $result->getViolations();
         $this->assertEquals(MaxLength::KEYWORD, $violation->keyword);
@@ -34,8 +34,8 @@ final class LengthTest extends TestCase
         $this->assertEquals('The value must be less than 10 characters', $violation->message);
 
         $result = $this->rule->validate('+52559');
-        $this->assertFalse($result->isValid());
-        $this->assertTrue($result->isNotValid());
+        $this->assertFalse($result->isSucceeded());
+        $this->assertTrue($result->isFailed());
         $this->assertCount(1, $result->getViolations());
         [$violation] = $result->getViolations();
         $this->assertEquals(MinLength::KEYWORD, $violation->keyword);

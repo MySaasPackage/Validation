@@ -26,12 +26,12 @@ class RuleValidationResult
         return new RuleValidationResult();
     }
 
-    public function isValid(): bool
+    public function isSucceeded(): bool
     {
         return [] === $this->violations;
     }
 
-    public function isNotValid(): bool
+    public function isFailed(): bool
     {
         return [] !== $this->violations;
     }

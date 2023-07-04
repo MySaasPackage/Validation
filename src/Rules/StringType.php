@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace MySaasPackage\Validation\Rules;
 
-use MySaasPackage\Validation\RuleValidation;
+use MySaasPackage\Validation\Rule;
 use MySaasPackage\Validation\RuleValidationResult;
 use MySaasPackage\Validation\Utils\MessageFormatter;
 use MySaasPackage\Validation\Violation;
 
-class StringType implements RuleValidation
+class StringType implements Rule
 {
     public const KEYWORD = 'string.type.mismatch';
 

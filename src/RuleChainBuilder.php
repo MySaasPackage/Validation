@@ -13,9 +13,9 @@ class RuleChainBuilder
         $this->parser = new ExpressionParser();
     }
 
-    public function expression(string $expression): RuleValidatorChain
+    public function expression(string $expression): RuleChain
     {
-        $chain = new RuleValidatorChain();
+        $chain = new RuleChain();
 
         foreach ($this->parser->parse($expression) as $ruleDefinition) {
             $chain->applyRuleDefinitionOrThrow($ruleDefinition);

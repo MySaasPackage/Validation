@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace MySaasPackage\Validation;
 
-use InvalidArgumentException;
-
-class RuleValidatorChain
+class RuleChain
 {
     protected RuleNode|null $head = null;
-
     protected RuleNode|null $tail = null;
 
     public function __construct(
@@ -20,17 +17,19 @@ class RuleValidatorChain
         }
     }
 
-    public function add(RuleNode $rule): self
+    public function add(Rule $rule): self
     {
+        $node = new RuleNode($rule);
+
         if (!$this->head instanceof RuleNode) {
-            $this->head = $rule;
-            $this->tail = $rule;
+            $this->head = $node;
+            $this->tail = $node;
 
             return $this;
         }
 
-        $this->tail->setNextRule($rule);
-        $this->tail = $rule;
+        $this->tail->setNextRule($node);
+        $this->tail = $node;
 
         return $this;
     }
@@ -103,22 +102,13 @@ class RuleValidatorChain
         return $this->add(new Rules\MaxLength($max));
     }
 
-    public function sameAs(string $originalProperty, string $shouldBeEqualsTo): self
-    {
-        return $this->add(new Rules\SameAs($originalProperty, $shouldBeEqualsTo));
-    }
-
-    public function validate(mixed $value): RuleValidatorResult
+    public function validate(mixed $value): RuleValidationResult
     {
         return $this->validateChain($this->head, $value);
     }
 
-    protected function validateChain(RuleNode $node, mixed $value): RuleValidatorResult
+    protected function validateChain(RuleNode $node, mixed $value): RuleValidationResult
     {
-        if ($node instanceof Rules\Optional && $node->isEmpty($value)) {
-            return new RuleValidatorResult([]);
-        }
-
         $result = $node->validate($value);
 
         if ($node->hasNext()) {
@@ -126,27 +116,5 @@ class RuleValidatorChain
         }
 
         return $result;
-    }
-
-    public function applyRuleDefinition(RuleDefinition $parsed): self
-    {
-        if (!method_exists($this, $parsed->rule)) {
-            return $this;
-        }
-
-        if ($parsed->hasArgs()) {
-            return $this->{$parsed->rule}(...$parsed->args);
-        }
-
-        return $this->{$parsed->rule}();
-    }
-
-    public function applyRuleDefinitionOrThrow(RuleDefinition $parsed): self
-    {
-        if (method_exists($this, $parsed->rule)) {
-            return $this->applyRuleDefinition($parsed);
-        }
-
-        throw new InvalidArgumentException(sprintf('Rule %s does not exist', $parsed->rule));
     }
 }

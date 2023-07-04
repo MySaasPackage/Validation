@@ -6,31 +6,31 @@ namespace MySaasPackage\Validation\Rules;
 
 use PHPUnit\Framework\TestCase;
 
-final class EmailTypeTest extends TestCase
+final class PhoneTypeTest extends TestCase
 {
-    protected EmailType $rule;
+    protected PhoneType $rule;
 
     public function setup(): void
     {
-        $this->rule = new EmailType();
+        $this->rule = new PhoneType();
     }
 
-    public function testEmailTypeRuleSuccessfully(): void
+    public function testPhoneTypeRuleSuccessfully(): void
     {
-        $result = $this->rule->validate('valid@email.com');
+        $result = $this->rule->validate('+52559999999');
         $this->assertTrue($result->isValid());
         $this->assertFalse($result->isNotValid());
     }
 
     public function testStringTypeRuleWithInvalidInput(): void
     {
-        $result = $this->rule->validate('invalid@email');
+        $result = $this->rule->validate('invalid');
         $this->assertFalse($result->isValid());
         $this->assertTrue($result->isNotValid());
         $this->assertCount(1, $result->getViolations());
         [$violation] = $result->getViolations();
-        $this->assertEquals(EmailType::KEYWORD, $violation->keyword);
-        $this->assertEquals('invalid@email', $violation->args);
-        $this->assertEquals('The value provided must be a valid email', $violation->message);
+        $this->assertEquals(PhoneType::KEYWORD, $violation->keyword);
+        $this->assertEquals('invalid', $violation->args);
+        $this->assertEquals('The value provided must be a valid phone number', $violation->message);
     }
 }

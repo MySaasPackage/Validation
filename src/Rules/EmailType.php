@@ -6,7 +6,6 @@ namespace MySaasPackage\Validation\Rules;
 
 use MySaasPackage\Validation\RuleValidation;
 use MySaasPackage\Validation\RuleValidationResult;
-use MySaasPackage\Validation\Utils\MessageFormatter;
 use MySaasPackage\Validation\Violation;
 
 class EmailType implements RuleValidation
@@ -17,7 +16,7 @@ class EmailType implements RuleValidation
 
     public function validate(mixed $value): RuleValidationResult
     {
-        if ((bool) preg_match(self::REGEX, (string) $value)) {
+        if (is_string($value) && (bool) preg_match(self::REGEX, (string) $value)) {
             return RuleValidationResult::succeeded();
         }
 
@@ -25,7 +24,7 @@ class EmailType implements RuleValidation
             new Violation(
                 keyword: self::KEYWORD,
                 args: $value,
-                message: MessageFormatter::format('The value provided must be a valid string, you provide "{value}"', ['value' => $value])
+                message: 'The value provided must be a valid email'
             )
         );
     }

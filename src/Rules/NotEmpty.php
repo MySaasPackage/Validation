@@ -4,22 +4,26 @@ declare(strict_types=1);
 
 namespace MySaasPackage\Validation\Rules;
 
-use MySaasPackage\Validation\RuleNode;
+use MySaasPackage\Validation\RuleValidation;
+use MySaasPackage\Validation\RuleValidationResult;
 use MySaasPackage\Validation\Violation;
 
-class NotEmpty extends RuleNode
+class NotEmpty implements RuleValidation
 {
-    public function getViolations(): array
-    {
-        return [
-            new Violation(
-                keyword: 'value.is_empty',
-            ),
-        ];
-    }
+    public const KEYWORD = 'value.empty';
 
-    protected function isValid(mixed $value): bool
+    public function validate(mixed $value): RuleValidationResult
     {
-        return !empty($value);
+        if (!empty($value)) {
+            return RuleValidationResult::succeeded();
+        }
+
+        return RuleValidationResult::failed(
+            new Violation(
+                keyword: self::KEYWORD,
+                args: $value,
+                message: 'Value cannot be empty'
+            )
+        );
     }
 }

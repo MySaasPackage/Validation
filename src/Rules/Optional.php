@@ -4,22 +4,13 @@ declare(strict_types=1);
 
 namespace MySaasPackage\Validation\Rules;
 
-use MySaasPackage\Validation\RuleNode;
+use MySaasPackage\Validation\RuleValidation;
+use MySaasPackage\Validation\RuleValidationResult;
 
-class Optional extends RuleNode
+class Optional implements RuleValidation
 {
-    public function getViolations(): array
+    public function validate(mixed $value = null): RuleValidationResult
     {
-        return [];
-    }
-
-    public function isEmpty(mixed $value): bool
-    {
-        return $this->isValid($value);
-    }
-
-    protected function isValid(mixed $value): bool
-    {
-        return null === $value;
+        return RuleValidationResult::succeeded();
     }
 }

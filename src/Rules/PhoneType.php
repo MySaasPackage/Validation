@@ -4,24 +4,28 @@ declare(strict_types=1);
 
 namespace MySaasPackage\Validation\Rules;
 
-use MySaasPackage\Validation\RuleNode;
+use MySaasPackage\Validation\RuleValidation;
+use MySaasPackage\Validation\RuleValidationResult;
 use MySaasPackage\Validation\Violation;
 
-class PhoneType extends RuleNode
+class PhoneType implements RuleValidation
 {
+    public const KEYWORD = 'phone.type.mismatch';
+
     public const REGEX = '/^\+(?:\d){6,14}\d$/';
 
-    public function getViolations(): array
+    public function validate(mixed $value = null): RuleValidationResult
     {
-        return [
-            new Violation(
-                keyword: 'phone.type.mismatch',
-            ),
-        ];
-    }
+        if ((bool) preg_match(self::REGEX, (string) $value)) {
+            return RuleValidationResult::succeeded();
+        }
 
-    protected function isValid(mixed $value): bool
-    {
-        return (bool) preg_match(self::REGEX, (string) $value);
+        return RuleValidationResult::failed(
+            new Violation(
+                self::KEYWORD,
+                args: $value,
+                message: 'The value provided must be a valid phone number',
+            )
+        );
     }
 }

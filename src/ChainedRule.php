@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MySaasPackage\Validation;
 
-class RuleChain
+class ChainedRule
 {
     protected RuleNode|null $head = null;
     protected RuleNode|null $tail = null;

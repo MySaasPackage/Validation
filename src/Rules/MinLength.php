@@ -18,7 +18,7 @@ class MinLength implements RuleValidation
         protected string|int $minLength,
     ) {
         if (!is_numeric($minLength)) {
-            throw new InvalidArgumentException('minLength param must be a number');
+            throw new InvalidArgumentException('MinLength param must be a number');
         }
 
         $this->minLength = (int) $minLength;

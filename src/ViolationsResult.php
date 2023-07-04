@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace MySaasPackage\Validation;
 
-class ViolationsResult
+readonly class ViolationsResult
 {
     public function __construct(
-        protected readonly array $violations = []
+        protected array $violations = []
     ) {
     }
 

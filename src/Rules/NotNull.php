@@ -5,20 +5,20 @@ declare(strict_types=1);
 namespace MySaasPackage\Validation\Rules;
 
 use MySaasPackage\Validation\Rule;
-use MySaasPackage\Validation\RuleValidationResult;
 use MySaasPackage\Validation\Violation;
+use MySaasPackage\Validation\ViolationsResult;
 
 class NotNull implements Rule
 {
     public const KEYWORD = 'value.null';
 
-    public function validate(mixed $value = null): RuleValidationResult
+    public function validate(mixed $value = null): ViolationsResult
     {
         if (!empty($value)) {
-            return RuleValidationResult::succeeded();
+            return ViolationsResult::succeeded();
         }
 
-        return RuleValidationResult::failed(
+        return ViolationsResult::failed(
             new Violation(
                 keyword: self::KEYWORD,
                 args: $value,

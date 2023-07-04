@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace MySaasPackage\Validation\Rules;
 
 use MySaasPackage\Validation\Rule;
-use MySaasPackage\Validation\RuleValidationResult;
 use MySaasPackage\Validation\Violation;
+use MySaasPackage\Validation\ViolationsResult;
 
 class PhoneType implements Rule
 {
@@ -14,13 +14,13 @@ class PhoneType implements Rule
 
     public const REGEX = '/^\+(?:\d){6,14}\d$/';
 
-    public function validate(mixed $value = null): RuleValidationResult
+    public function validate(mixed $value = null): ViolationsResult
     {
         if ((bool) preg_match(self::REGEX, (string) $value)) {
-            return RuleValidationResult::succeeded();
+            return ViolationsResult::succeeded();
         }
 
-        return RuleValidationResult::failed(
+        return ViolationsResult::failed(
             new Violation(
                 self::KEYWORD,
                 args: $value,

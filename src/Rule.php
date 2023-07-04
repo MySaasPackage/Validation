@@ -6,5 +6,5 @@ namespace MySaasPackage\Validation;
 
 interface Rule
 {
-    public function validate(mixed $value): RuleValidationResult;
+    public function validate(mixed $value): ViolationsResult;
 }

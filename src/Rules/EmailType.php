@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace MySaasPackage\Validation\Rules;
 
 use MySaasPackage\Validation\Rule;
-use MySaasPackage\Validation\RuleValidationResult;
 use MySaasPackage\Validation\Violation;
+use MySaasPackage\Validation\ViolationsResult;
 
 class EmailType implements Rule
 {
@@ -14,13 +14,13 @@ class EmailType implements Rule
 
     public const KEYWORD = 'email.type.mismatch';
 
-    public function validate(mixed $value): RuleValidationResult
+    public function validate(mixed $value): ViolationsResult
     {
         if (is_string($value) && (bool) preg_match(self::REGEX, (string) $value)) {
-            return RuleValidationResult::succeeded();
+            return ViolationsResult::succeeded();
         }
 
-        return RuleValidationResult::failed(
+        return ViolationsResult::failed(
             new Violation(
                 keyword: self::KEYWORD,
                 args: $value,

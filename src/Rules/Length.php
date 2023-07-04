@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MySaasPackage\Validation\Rules;
 
 use MySaasPackage\Validation\Rule;
-use MySaasPackage\Validation\RuleValidationResult;
+use MySaasPackage\Validation\ViolationsResult;
 
 class Length implements Rule
 {
@@ -15,11 +15,11 @@ class Length implements Rule
     ) {
     }
 
-    public function validate(mixed $value): RuleValidationResult
+    public function validate(mixed $value): ViolationsResult
     {
         $minValidationResult = $this->minLength->validate($value);
         $maxValidationResult = $this->maxLength->validate($value);
 
-        return RuleValidationResult::merge($minValidationResult, $maxValidationResult);
+        return ViolationsResult::merge($minValidationResult, $maxValidationResult);
     }
 }

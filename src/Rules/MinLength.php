@@ -6,9 +6,9 @@ namespace MySaasPackage\Validation\Rules;
 
 use InvalidArgumentException;
 use MySaasPackage\Validation\Rule;
-use MySaasPackage\Validation\RuleValidationResult;
 use MySaasPackage\Validation\Utils\MessageFormatter;
 use MySaasPackage\Validation\Violation;
+use MySaasPackage\Validation\ViolationsResult;
 
 class MinLength implements Rule
 {
@@ -24,13 +24,13 @@ class MinLength implements Rule
         $this->minLength = (int) $minLength;
     }
 
-    public function validate(mixed $value): RuleValidationResult
+    public function validate(mixed $value): ViolationsResult
     {
         if (is_string($value) && strlen($value) >= $this->minLength) {
-            return RuleValidationResult::succeeded();
+            return ViolationsResult::succeeded();
         }
 
-        return RuleValidationResult::failed(
+        return ViolationsResult::failed(
             new Violation(
                 keyword: self::KEYWORD,
                 args: $value,

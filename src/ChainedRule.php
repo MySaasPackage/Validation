@@ -6,8 +6,8 @@ namespace MySaasPackage\Validation;
 
 class ChainedRule
 {
-    protected RuleNode|null $head = null;
-    protected RuleNode|null $tail = null;
+    protected ChainRule|null $head = null;
+    protected ChainRule|null $tail = null;
 
     public function __construct(
         protected array $rules = []
@@ -17,11 +17,16 @@ class ChainedRule
         }
     }
 
+    public static function create(): self
+    {
+        return new self();
+    }
+
     public function add(Rule $rule): self
     {
-        $node = new RuleNode($rule);
+        $node = new ChainRule($rule);
 
-        if (!$this->head instanceof RuleNode) {
+        if (!$this->head instanceof ChainRule) {
             $this->head = $node;
             $this->tail = $node;
 
@@ -34,11 +39,6 @@ class ChainedRule
         return $this;
     }
 
-    public static function create(): self
-    {
-        return new self();
-    }
-
     public function required(): self
     {
         return $this->add(new Rules\Required());
@@ -49,7 +49,7 @@ class ChainedRule
         return $this->add(new Rules\Optional());
     }
 
-    public function rule(RuleNode $rule): self
+    public function rule(Rule $rule): self
     {
         return $this->add($rule);
     }
@@ -102,12 +102,12 @@ class ChainedRule
         return $this->add(new Rules\MaxLength($max));
     }
 
-    public function validate(mixed $value): RuleValidationResult
+    public function validate(mixed $value): ViolationsResult
     {
         return $this->validateChain($this->head, $value);
     }
 
-    protected function validateChain(RuleNode $node, mixed $value): RuleValidationResult
+    protected function validateChain(ChainRule $node, mixed $value): ViolationsResult
     {
         $result = $node->validate($value);
 

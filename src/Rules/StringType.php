@@ -5,21 +5,21 @@ declare(strict_types=1);
 namespace MySaasPackage\Validation\Rules;
 
 use MySaasPackage\Validation\Rule;
-use MySaasPackage\Validation\RuleValidationResult;
 use MySaasPackage\Validation\Utils\MessageFormatter;
 use MySaasPackage\Validation\Violation;
+use MySaasPackage\Validation\ViolationsResult;
 
 class StringType implements Rule
 {
     public const KEYWORD = 'string.type.mismatch';
 
-    public function validate(mixed $value): RuleValidationResult
+    public function validate(mixed $value): ViolationsResult
     {
         if (is_string($value)) {
-            return RuleValidationResult::succeeded();
+            return ViolationsResult::succeeded();
         }
 
-        return RuleValidationResult::failed(
+        return ViolationsResult::failed(
             new Violation(
                 keyword: self::KEYWORD,
                 args: $value,

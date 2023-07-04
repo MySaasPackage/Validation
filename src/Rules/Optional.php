@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace MySaasPackage\Validation\Rules;
 
 use MySaasPackage\Validation\Rule;
-use MySaasPackage\Validation\RuleValidationResult;
+use MySaasPackage\Validation\ViolationsResult;
 
 class Optional implements Rule
 {
-    public function validate(mixed $value = null): RuleValidationResult
+    public function validate(mixed $value = null): ViolationsResult
     {
-        return RuleValidationResult::succeeded();
+        return ViolationsResult::succeeded();
     }
 }

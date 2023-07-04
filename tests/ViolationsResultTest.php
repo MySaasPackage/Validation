@@ -6,11 +6,11 @@ namespace MySaasPackage\Validation;
 
 use PHPUnit\Framework\TestCase;
 
-final class RuleValidationResultTest extends TestCase
+final class ViolationsResultTest extends TestCase
 {
     public function testCreateSucceededRuleValidationResult(): void
     {
-        $result = RuleValidationResult::succeeded();
+        $result = ViolationsResult::succeeded();
         $this->assertTrue($result->isSucceeded());
         $this->assertFalse($result->isFailed());
     }
@@ -19,7 +19,7 @@ final class RuleValidationResultTest extends TestCase
     {
         $violation = new Violation(keyword: 'keyword');
 
-        $result = RuleValidationResult::failed($violation);
+        $result = ViolationsResult::failed($violation);
         $this->assertFalse($result->isSucceeded());
         $this->assertTrue($result->isFailed());
         $this->assertEquals([$violation], $result->getViolations());

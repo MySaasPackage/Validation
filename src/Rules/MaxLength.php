@@ -6,9 +6,9 @@ namespace MySaasPackage\Validation\Rules;
 
 use InvalidArgumentException;
 use MySaasPackage\Validation\Rule;
-use MySaasPackage\Validation\RuleValidationResult;
 use MySaasPackage\Validation\Utils\MessageFormatter;
 use MySaasPackage\Validation\Violation;
+use MySaasPackage\Validation\ViolationsResult;
 
 class MaxLength implements Rule
 {
@@ -24,13 +24,13 @@ class MaxLength implements Rule
         $this->maxLength = (int) $maxLength;
     }
 
-    public function validate(mixed $value): RuleValidationResult
+    public function validate(mixed $value): ViolationsResult
     {
         if (is_string($value) && strlen($value) <= $this->maxLength) {
-            return RuleValidationResult::succeeded();
+            return ViolationsResult::succeeded();
         }
 
-        return RuleValidationResult::failed(
+        return ViolationsResult::failed(
             new Violation(
                 keyword: self::KEYWORD,
                 args: $value,

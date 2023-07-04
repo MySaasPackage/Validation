@@ -12,7 +12,7 @@ class NotNull implements RuleValidation
 {
     public const KEYWORD = 'value.null';
 
-    public function validate(mixed $value): RuleValidationResult
+    public function validate(mixed $value = null): RuleValidationResult
     {
         if (!empty($value)) {
             return RuleValidationResult::succeeded();
@@ -22,7 +22,7 @@ class NotNull implements RuleValidation
             new Violation(
                 keyword: self::KEYWORD,
                 args: $value,
-                message: 'Value cannot be null'
+                message: 'The value cannot be null'
             )
         );
     }

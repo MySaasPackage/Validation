@@ -22,7 +22,7 @@ class NotEmpty implements RuleValidation
             new Violation(
                 keyword: self::KEYWORD,
                 args: $value,
-                message: 'Value cannot be empty'
+                message: 'The value cannot be empty'
             )
         );
     }

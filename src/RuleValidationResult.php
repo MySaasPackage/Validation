@@ -11,6 +11,11 @@ class RuleValidationResult
     ) {
     }
 
+    public static function create(Violation ...$violations): RuleValidationResult
+    {
+        return new RuleValidationResult($violations);
+    }
+
     public static function failed(Violation ...$violations): RuleValidationResult
     {
         return new RuleValidationResult($violations);
@@ -38,9 +43,11 @@ class RuleValidationResult
 
     public static function merge(RuleValidationResult ...$results): RuleValidationResult
     {
-        $violations = array_map(static fn (RuleValidationResult $results) => $results->getViolations(), $results);
+        $violations = array_merge(
+            ...array_map(static fn (RuleValidationResult $results) => $results->getViolations(), $results)
+        );
 
-        return new RuleValidationResult(...$violations);
+        return RuleValidationResult::create(...$violations);
     }
 
     public function __toArray(): array

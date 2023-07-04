@@ -34,7 +34,7 @@ class MaxLength implements RuleValidation
             new Violation(
                 keyword: self::KEYWORD,
                 args: $value,
-                message: MessageFormatter::format('Value must be less than {maxLength}', ['maxLength' => $this->maxLength])
+                message: MessageFormatter::format('The value must be less than {maxLength} characters', ['maxLength' => $this->maxLength])
             )
         );
     }

@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace MySaasPackage\Validation\Rules;
 
 use InvalidArgumentException;
-use MySaasPackage\Validation\Rule;
 use MySaasPackage\Validation\Utils\MessageFormatter;
+use MySaasPackage\Validation\Validatable;
 use MySaasPackage\Validation\Violation;
 use MySaasPackage\Validation\ViolationsResult;
 
-class MinLength implements Rule
+class MinLength implements Validatable
 {
     public const KEYWORD = 'min.length.mismatch';
 

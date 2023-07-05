@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace MySaasPackage\Validation\Rules;
 
-use MySaasPackage\Validation\Rule;
 use MySaasPackage\Validation\Utils\MessageFormatter;
+use MySaasPackage\Validation\Validatable;
 use MySaasPackage\Validation\Violation;
 use MySaasPackage\Validation\ViolationsResult;
 
-class IntegerType implements Rule
+class IntegerType implements Validatable
 {
     public const KEYWORD = 'integer.type.mismatch';
 

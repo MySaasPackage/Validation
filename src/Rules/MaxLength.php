@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace MySaasPackage\Validation\Rules;
 
 use InvalidArgumentException;
-use MySaasPackage\Validation\Rule;
 use MySaasPackage\Validation\Utils\MessageFormatter;
+use MySaasPackage\Validation\Validatable;
 use MySaasPackage\Validation\Violation;
 use MySaasPackage\Validation\ViolationsResult;
 
-class MaxLength implements Rule
+class MaxLength implements Validatable
 {
     public const KEYWORD = 'max.length.mismatch';
 

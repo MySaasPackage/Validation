@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace MySaasPackage\Validation\Rules;
 
-use MySaasPackage\Validation\Rule;
+use MySaasPackage\Validation\Validatable;
 use MySaasPackage\Validation\Violation;
 use MySaasPackage\Validation\ViolationsResult;
 
-class NotNull implements Rule
+class NotNull implements Validatable
 {
     public const KEYWORD = 'value.null';
 

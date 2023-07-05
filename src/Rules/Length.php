@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace MySaasPackage\Validation\Rules;
 
-use MySaasPackage\Validation\Rule;
+use MySaasPackage\Validation\Validatable;
 use MySaasPackage\Validation\ViolationsResult;
 
-class Length implements Rule
+class Length implements Validatable
 {
     public function __construct(
         protected readonly MinLength $minLength,

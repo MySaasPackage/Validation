@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MySaasPackage\Validation;
 
-class ChainedRule
+class ChainedRule implements Validatable
 {
     protected Chain|null $head = null;
     protected Chain|null $tail = null;
@@ -22,7 +22,7 @@ class ChainedRule
         return new self();
     }
 
-    public function add(Rule $rule): self
+    public function add(Validatable $rule): self
     {
         $node = new Chain($rule);
 
@@ -49,7 +49,7 @@ class ChainedRule
         return $this->add(new Rules\Optional());
     }
 
-    public function rule(Rule $rule): self
+    public function rule(Validatable $rule): self
     {
         return $this->add($rule);
     }

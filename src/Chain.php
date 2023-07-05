@@ -9,7 +9,7 @@ class Chain
     public Chain|null $next = null;
 
     public function __construct(
-        public readonly Rule $rule,
+        public readonly Validatable $rule,
     ) {
     }
 

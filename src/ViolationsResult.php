@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace MySaasPackage\Validation;
 
-readonly class ViolationsResult
+class ViolationsResult
 {
     public function __construct(
-        protected array $violations = []
+        protected readonly array $violations = []
     ) {
     }
 
@@ -44,7 +44,13 @@ readonly class ViolationsResult
     public static function merge(ViolationsResult ...$results): ViolationsResult
     {
         $violations = array_merge(
-            ...array_map(static fn (ViolationsResult $results) => $results->getViolations(), $results)
+            ...array_map(static function ($result) {
+                if ($result instanceof ViolationsResult) {
+                    return $result->getViolations();
+                }
+
+                return $result;
+            }, $results)
         );
 
         return ViolationsResult::create(...$violations);

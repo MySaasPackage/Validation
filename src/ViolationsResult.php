@@ -41,7 +41,7 @@ class ViolationsResult
         return $this->violations;
     }
 
-    public static function merge(ViolationsResult ...$results): ViolationsResult
+    public function merge(ViolationsResult ...$results): ViolationsResult
     {
         $violations = array_merge(
             ...array_map(static function ($result) {
@@ -53,7 +53,7 @@ class ViolationsResult
             }, $results)
         );
 
-        return ViolationsResult::create(...$violations);
+        return ViolationsResult::create(...$this->violations, ...$violations);
     }
 
     public function __toArray(): array

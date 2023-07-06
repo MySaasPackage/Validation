@@ -49,11 +49,6 @@ class ChainedRule implements Validatable
         return $this->add(new Rules\Optional());
     }
 
-    public function rule(Validatable $rule): self
-    {
-        return $this->add($rule);
-    }
-
     public function string(): self
     {
         return $this->add(new Rules\StringType());

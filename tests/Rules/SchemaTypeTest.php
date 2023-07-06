@@ -31,6 +31,37 @@ final class SchemaTypeTest extends TestCase
         $this->assertFalse($result->isFailed());
     }
 
+    public function testSchemaTypeRuleWithInvalidInput(): void
+    {
+        $result = $this->rule->validate([]);
+        [
+            'name' => [
+                ['keyword' => $nameRequiredKeyword],
+                ['keyword' => $nameStringKeyword],
+        ],
+        'age' => [
+            ['keyword' => $ageRequiredKeyword],
+            ['keyword' => $ageIntegerKeyword],
+        ],
+        'email' => [
+            ['keyword' => $emailRequiredKeyword],
+            ['keyword' => $emailEmailKeyword],
+        ]
+        ] = $result->__toArray();
+
+        $this->assertEquals(Required::KEYWORD, $nameRequiredKeyword);
+        $this->assertEquals(StringType::KEYWORD, $nameStringKeyword);
+
+        $this->assertEquals(Required::KEYWORD, $ageRequiredKeyword);
+        $this->assertEquals(IntegerType::KEYWORD, $ageIntegerKeyword);
+
+        $this->assertEquals(Required::KEYWORD, $emailRequiredKeyword);
+        $this->assertEquals(EmailType::KEYWORD, $emailEmailKeyword);
+
+        $this->assertFalse($result->isSucceeded());
+        $this->assertTrue($result->isFailed());
+    }
+
     public function testSchemaTypeRuleWithInvalidEmail(): void
     {
         $result = $this->rule->validate([

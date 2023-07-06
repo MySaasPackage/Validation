@@ -20,6 +20,6 @@ class Length implements Validatable
         $minValidationResult = $this->minLength->validate($value);
         $maxValidationResult = $this->maxLength->validate($value);
 
-        return ViolationsResult::merge($minValidationResult, $maxValidationResult);
+        return $minValidationResult->merge($maxValidationResult);
     }
 }

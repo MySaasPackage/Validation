@@ -9,20 +9,15 @@ use PHPUnit\Framework\TestCase;
 
 final class SchemaTypeTest extends TestCase
 {
-    protected SchemaType $rule;
-
-    public function setup(): void
+    public function testSchemaTypeRuleSuccessfully(): void
     {
-        $this->rule = new SchemaType([
+        $rule = ChainedRule::create()->schema([
             'name' => ChainedRule::create()->required()->string(),
             'age' => ChainedRule::create()->required()->integer(),
             'email' => ChainedRule::create()->required()->email(),
         ]);
-    }
 
-    public function testSchemaTypeRuleSuccessfully(): void
-    {
-        $result = $this->rule->validate([
+        $result = $rule->validate([
             'name' => 'John Doe',
             'age' => 30,
             'email' => 'alef@gmail.com',
@@ -33,7 +28,13 @@ final class SchemaTypeTest extends TestCase
 
     public function testSchemaTypeRuleWithInvalidInput(): void
     {
-        $result = $this->rule->validate([]);
+        $rule = ChainedRule::create()->schema([
+            'name' => ChainedRule::create()->required()->string(),
+            'age' => ChainedRule::create()->required()->integer(),
+            'email' => ChainedRule::create()->required()->email(),
+        ]);
+
+        $result = $rule->validate([]);
         [
             'name' => [
                 ['keyword' => $nameRequiredKeyword],
@@ -64,7 +65,13 @@ final class SchemaTypeTest extends TestCase
 
     public function testSchemaTypeRuleWithInvalidEmail(): void
     {
-        $result = $this->rule->validate([
+        $rule = ChainedRule::create()->schema([
+            'name' => ChainedRule::create()->required()->string(),
+            'age' => ChainedRule::create()->required()->integer(),
+            'email' => ChainedRule::create()->required()->email(),
+        ]);
+
+        $result = $rule->validate([
             'name' => 'John Doe',
             'age' => 30,
             'email' => 'invalid',
@@ -79,7 +86,13 @@ final class SchemaTypeTest extends TestCase
 
     public function testSchemaTypeRuleWithInvalidAge(): void
     {
-        $result = $this->rule->validate([
+        $rule = ChainedRule::create()->schema([
+            'name' => ChainedRule::create()->required()->string(),
+            'age' => ChainedRule::create()->required()->integer(),
+            'email' => ChainedRule::create()->required()->email(),
+        ]);
+
+        $result = $rule->validate([
             'name' => 'John Doe',
             'age' => '30',
             'email' => 'alef@gmail.com',

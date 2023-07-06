@@ -97,6 +97,11 @@ class ChainedRule implements Validatable
         return $this->add(new Rules\MaxLength($max));
     }
 
+    public function schema(array $schema): self
+    {
+        return $this->add(new Rules\SchemaType($schema));
+    }
+
     public function validate(mixed $value): ViolationsResult
     {
         return $this->validateChain($this->head, $value);

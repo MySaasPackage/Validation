@@ -22,23 +22,55 @@ class SchemaType implements Validatable
         $this->properties[$property] = $ruleOrSchema;
     }
 
+    protected function validateCollection(Validatable $ruleOrSchema, array $values): ViolationsResult
+    {
+        $collectionResult = [];
+        foreach ($values as $key => $value) {
+            $ruleOrSchemaResult = $ruleOrSchema->validate($value);
+
+            if ($ruleOrSchemaResult->isSucceeded()) {
+                continue;
+            }
+
+            $collectionResult[$key] = $ruleOrSchemaResult;
+        }
+
+        return new ViolationsResult($collectionResult);
+    }
+
+    protected function validateSingle(Validatable $ruleOrSchema, mixed $value): ViolationsResult
+    {
+        return $ruleOrSchema->validate($value);
+    }
+
+    protected function validateSingleOrCollection(Validatable $ruleOrSchema, mixed $value): ViolationsResult
+    {
+        if (is_array($value)) {
+            return $this->validateCollection($ruleOrSchema, $value);
+        }
+
+        return $this->validateSingle($ruleOrSchema, $value);
+    }
+
     public function validate(mixed $value): ViolationsResult
     {
         if (!is_array($value)) {
             return ViolationsResult::failed(new Violation(self::KEYWORD, 'The value must be an array'));
         }
 
-        $raw = [];
+        $schemaResult = [];
         foreach ($this->properties as $property => $ruleOrSchema) {
-            $ruleOrSchemaResult = $ruleOrSchema->validate($value[$property] ?? null);
+            $value[$property] ??= null;
 
-            if ($ruleOrSchemaResult->isSucceeded()) {
+            $result = $this->validateSingleOrCollection($ruleOrSchema, $value[$property]);
+
+            if ($result->isSucceeded()) {
                 continue;
             }
 
-            $raw[$property] = $ruleOrSchemaResult;
+            $schemaResult[$property] = $result;
         }
 
-        return new ViolationsResult($raw);
+        return new ViolationsResult($schemaResult);
     }
 }

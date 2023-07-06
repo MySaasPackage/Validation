@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MySaasPackage\Validation;
 
-class ChainedRule implements Validatable
+class ChainedValidator implements Validatable
 {
     protected Chain|null $head = null;
     protected Chain|null $tail = null;

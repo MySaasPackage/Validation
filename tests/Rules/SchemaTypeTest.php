@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace MySaasPackage\Validation\Rules;
 
-use MySaasPackage\Validation\ChainedRule;
+use MySaasPackage\Validation\ChainedValidator;
 use PHPUnit\Framework\TestCase;
 
 final class SchemaTypeTest extends TestCase
 {
     public function testSchemaTypeRuleSuccessfully(): void
     {
-        $rule = ChainedRule::create()->schema([
-            'name' => ChainedRule::create()->required()->string(),
-            'age' => ChainedRule::create()->required()->integer(),
-            'email' => ChainedRule::create()->required()->email(),
+        $rule = ChainedValidator::create()->schema([
+            'name' => ChainedValidator::create()->required()->string(),
+            'age' => ChainedValidator::create()->required()->integer(),
+            'email' => ChainedValidator::create()->required()->email(),
         ]);
 
         $result = $rule->validate([
@@ -28,13 +28,13 @@ final class SchemaTypeTest extends TestCase
 
     public function testNestedSchemaTypeRuleSuccessfully(): void
     {
-        $rule = ChainedRule::create()->schema([
-            'name' => ChainedRule::create()->required()->string(),
-            'age' => ChainedRule::create()->required()->integer(),
-            'email' => ChainedRule::create()->required()->email(),
-            'address' => ChainedRule::create()->schema([
-                'city' => ChainedRule::create()->required()->string(),
-                'country' => ChainedRule::create()->required()->string(),
+        $rule = ChainedValidator::create()->schema([
+            'name' => ChainedValidator::create()->required()->string(),
+            'age' => ChainedValidator::create()->required()->integer(),
+            'email' => ChainedValidator::create()->required()->email(),
+            'address' => ChainedValidator::create()->schema([
+                'city' => ChainedValidator::create()->required()->string(),
+                'country' => ChainedValidator::create()->required()->string(),
             ]),
         ]);
 
@@ -54,14 +54,14 @@ final class SchemaTypeTest extends TestCase
 
     public function testNestedSchemaTypeRuleWithCollectionSuccessfully(): void
     {
-        $rule = ChainedRule::create()->schema([
-            'name' => ChainedRule::create()->required()->string(),
-            'age' => ChainedRule::create()->required()->integer(),
-            'email' => ChainedRule::create()->required()->email(),
-            'address' => ChainedRule::create()->collection(
-                ChainedRule::create()->schema([
-                    'city' => ChainedRule::create()->required()->string(),
-                    'country' => ChainedRule::create()->required()->string(),
+        $rule = ChainedValidator::create()->schema([
+            'name' => ChainedValidator::create()->required()->string(),
+            'age' => ChainedValidator::create()->required()->integer(),
+            'email' => ChainedValidator::create()->required()->email(),
+            'address' => ChainedValidator::create()->collection(
+                ChainedValidator::create()->schema([
+                    'city' => ChainedValidator::create()->required()->string(),
+                    'country' => ChainedValidator::create()->required()->string(),
                 ])
             ),
         ]);
@@ -84,14 +84,14 @@ final class SchemaTypeTest extends TestCase
 
     public function testNestedSchemaTypeRuleWithCollectionFailure(): void
     {
-        $rule = ChainedRule::create()->schema([
-            'name' => ChainedRule::create()->required()->string(),
-            'age' => ChainedRule::create()->required()->integer(),
-            'email' => ChainedRule::create()->required()->email(),
-            'address' => ChainedRule::create()->collection(
-                ChainedRule::create()->schema([
-                    'city' => ChainedRule::create()->required()->string(),
-                    'country' => ChainedRule::create()->required()->string(),
+        $rule = ChainedValidator::create()->schema([
+            'name' => ChainedValidator::create()->required()->string(),
+            'age' => ChainedValidator::create()->required()->integer(),
+            'email' => ChainedValidator::create()->required()->email(),
+            'address' => ChainedValidator::create()->collection(
+                ChainedValidator::create()->schema([
+                    'city' => ChainedValidator::create()->required()->string(),
+                    'country' => ChainedValidator::create()->required()->string(),
                 ])
             ),
         ]);
@@ -112,10 +112,10 @@ final class SchemaTypeTest extends TestCase
 
     public function testSchemaTypeRuleWithInvalidInput(): void
     {
-        $rule = ChainedRule::create()->schema([
-            'name' => ChainedRule::create()->required()->string(),
-            'age' => ChainedRule::create()->required()->integer(),
-            'email' => ChainedRule::create()->required()->email(),
+        $rule = ChainedValidator::create()->schema([
+            'name' => ChainedValidator::create()->required()->string(),
+            'age' => ChainedValidator::create()->required()->integer(),
+            'email' => ChainedValidator::create()->required()->email(),
         ]);
 
         $result = $rule->validate([]);
@@ -149,10 +149,10 @@ final class SchemaTypeTest extends TestCase
 
     public function testSchemaTypeRuleWithInvalidEmail(): void
     {
-        $rule = ChainedRule::create()->schema([
-            'name' => ChainedRule::create()->required()->string(),
-            'age' => ChainedRule::create()->required()->integer(),
-            'email' => ChainedRule::create()->required()->email(),
+        $rule = ChainedValidator::create()->schema([
+            'name' => ChainedValidator::create()->required()->string(),
+            'age' => ChainedValidator::create()->required()->integer(),
+            'email' => ChainedValidator::create()->required()->email(),
         ]);
 
         $result = $rule->validate([
@@ -170,10 +170,10 @@ final class SchemaTypeTest extends TestCase
 
     public function testSchemaTypeRuleWithInvalidAge(): void
     {
-        $rule = ChainedRule::create()->schema([
-            'name' => ChainedRule::create()->required()->string(),
-            'age' => ChainedRule::create()->required()->integer(),
-            'email' => ChainedRule::create()->required()->email(),
+        $rule = ChainedValidator::create()->schema([
+            'name' => ChainedValidator::create()->required()->string(),
+            'age' => ChainedValidator::create()->required()->integer(),
+            'email' => ChainedValidator::create()->required()->email(),
         ]);
 
         $result = $rule->validate([

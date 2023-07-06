@@ -102,6 +102,11 @@ class ChainedRule implements Validatable
         return $this->add(new Rules\SchemaType($schema));
     }
 
+    public function collection(Validatable $rule): self
+    {
+        return $this->add(new Rules\CollectionType($rule));
+    }
+
     public function validate(mixed $value): ViolationsResult
     {
         return $this->validateChain($this->head, $value);

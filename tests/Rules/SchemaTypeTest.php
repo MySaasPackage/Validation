@@ -26,6 +26,90 @@ final class SchemaTypeTest extends TestCase
         $this->assertFalse($result->isFailed());
     }
 
+    public function testNestedSchemaTypeRuleSuccessfully(): void
+    {
+        $rule = ChainedRule::create()->schema([
+            'name' => ChainedRule::create()->required()->string(),
+            'age' => ChainedRule::create()->required()->integer(),
+            'email' => ChainedRule::create()->required()->email(),
+            'address' => ChainedRule::create()->schema([
+                'city' => ChainedRule::create()->required()->string(),
+                'country' => ChainedRule::create()->required()->string(),
+            ]),
+        ]);
+
+        $result = $rule->validate([
+            'name' => 'John Doe',
+            'age' => 30,
+            'email' => 'alef@gmail.com',
+            'address' => [
+                'city' => 'Tehran',
+                'country' => 'Iran',
+            ],
+        ]);
+
+        $this->assertTrue($result->isSucceeded());
+        $this->assertFalse($result->isFailed());
+    }
+
+    public function testNestedSchemaTypeRuleWithCollectionSuccessfully(): void
+    {
+        $rule = ChainedRule::create()->schema([
+            'name' => ChainedRule::create()->required()->string(),
+            'age' => ChainedRule::create()->required()->integer(),
+            'email' => ChainedRule::create()->required()->email(),
+            'address' => ChainedRule::create()->collection(
+                ChainedRule::create()->schema([
+                    'city' => ChainedRule::create()->required()->string(),
+                    'country' => ChainedRule::create()->required()->string(),
+                ])
+            ),
+        ]);
+
+        $result = $rule->validate([
+            'name' => 'John Doe',
+            'age' => 30,
+            'email' => 'alef@gmail.com',
+            'address' => [
+                [
+                    'city' => 'Tehran',
+                    'country' => 'Iran',
+                ],
+            ],
+        ]);
+
+        $this->assertTrue($result->isSucceeded());
+        $this->assertFalse($result->isFailed());
+    }
+
+    public function testNestedSchemaTypeRuleWithCollectionFailure(): void
+    {
+        $rule = ChainedRule::create()->schema([
+            'name' => ChainedRule::create()->required()->string(),
+            'age' => ChainedRule::create()->required()->integer(),
+            'email' => ChainedRule::create()->required()->email(),
+            'address' => ChainedRule::create()->collection(
+                ChainedRule::create()->schema([
+                    'city' => ChainedRule::create()->required()->string(),
+                    'country' => ChainedRule::create()->required()->string(),
+                ])
+            ),
+        ]);
+
+        $result = $rule->validate([
+            'name' => 'John Doe',
+            'age' => 30,
+            'email' => 'alef@gmail.com',
+            'address' => [
+                'city' => 'Tehran',
+                'country' => 'Iran',
+            ],
+        ]);
+
+        $this->assertFalse($result->isSucceeded());
+        $this->assertTrue($result->isFailed());
+    }
+
     public function testSchemaTypeRuleWithInvalidInput(): void
     {
         $rule = ChainedRule::create()->schema([

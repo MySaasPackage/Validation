@@ -27,9 +27,9 @@ final class CollectionTypeTest extends TestCase
         $result = $this->rule->validate(['alef@gmail.com', 'invalid@email']);
         $this->assertFalse($result->isSucceeded());
         $this->assertTrue($result->isFailed());
-        [$violation] = $result->getViolations();
-        $this->assertEquals(EmailType::KEYWORD, $violation->keyword);
-        $this->assertEquals('invalid@email', $violation->args);
-        $this->assertEquals('The value provided must be a valid email', $violation->message);
+        [,[['keyword' => $keyword, 'message' => $message, 'args' => $args]]] = $result->__toArray();
+        $this->assertEquals(EmailType::KEYWORD, $keyword);
+        $this->assertEquals('invalid@email', $args);
+        $this->assertEquals('The value provided must be a valid email', $message);
     }
 }

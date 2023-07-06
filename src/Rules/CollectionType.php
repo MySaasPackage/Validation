@@ -28,15 +28,16 @@ class CollectionType implements Validatable
             );
         }
 
-        $violations = [];
+        $violationsResult = [];
+        foreach ($value as $key => $item) {
+            $itemViolationsResult = $this->type->validate($item);
+            if ($itemViolationsResult->isSucceeded()) {
+                continue;
+            }
 
-        foreach ($value as $item) {
-            $violations = array_merge(
-                $violations,
-                $this->type->validate($item)->getViolations()
-            );
+            $violationsResult[$key] = $itemViolationsResult;
         }
 
-        return ViolationsResult::create(...$violations);
+        return new ViolationsResult($violationsResult);
     }
 }

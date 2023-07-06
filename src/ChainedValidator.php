@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MySaasPackage\Validation;
 
-class ChainedValidator implements Validatable
+abstract class ChainedValidator implements Validatable
 {
     protected Chain|null $head = null;
     protected Chain|null $tail = null;
@@ -15,11 +15,6 @@ class ChainedValidator implements Validatable
         foreach ($rules as $rule) {
             $this->add($rule);
         }
-    }
-
-    public static function create(): self
-    {
-        return new self();
     }
 
     public function add(Validatable $rule): self

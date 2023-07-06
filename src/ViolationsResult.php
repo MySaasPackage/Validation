@@ -58,6 +58,6 @@ class ViolationsResult
 
     public function __toArray(): array
     {
-        return array_map(static fn (Violation $error) => $error->__toArray(), $this->violations);
+        return array_map(fn ($violation) => $violation->__toArray(), $this->violations);
     }
 }

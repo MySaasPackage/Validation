@@ -28,12 +28,17 @@ class SchemaType implements Validatable
             return ViolationsResult::failed(new Violation(self::KEYWORD, 'The value must be an array'));
         }
 
-        $result = [];
+        $raw = [];
         foreach ($this->properties as $property => $ruleOrSchema) {
-            $toValidate = $value[$property] ?? null;
-            $result[$property] = $ruleOrSchema->validate($toValidate);
+            $ruleOrSchemaResult = $ruleOrSchema->validate($value[$property] ?? null);
+
+            if ($ruleOrSchemaResult->isSucceeded()) {
+                continue;
+            }
+
+            $raw[$property] = $ruleOrSchemaResult;
         }
 
-        return new ViolationsResult($result);
+        return new ViolationsResult($raw);
     }
 }

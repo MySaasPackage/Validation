@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace MySaasPackage\Validation\Rules;
 
+use MySaasPackage\Validation\RuleResult;
 use MySaasPackage\Validation\Validatable;
 use MySaasPackage\Validation\Violation;
-use MySaasPackage\Validation\ViolationsResult;
 
 class NotEmpty implements Validatable
 {
     public const KEYWORD = 'value.empty';
 
-    public function validate(mixed $value): ViolationsResult
+    public function validate(mixed $value): RuleResult
     {
         if (!empty($value)) {
-            return ViolationsResult::succeeded();
+            return RuleResult::succeeded();
         }
 
-        return ViolationsResult::failed(
+        return RuleResult::failed(
             new Violation(
                 keyword: self::KEYWORD,
                 args: $value,

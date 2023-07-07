@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace MySaasPackage\Validation\Rules;
 
 use InvalidArgumentException;
+use MySaasPackage\Validation\RuleResult;
 use MySaasPackage\Validation\Utils\MessageFormatter;
 use MySaasPackage\Validation\Validatable;
 use MySaasPackage\Validation\Violation;
-use MySaasPackage\Validation\ViolationsResult;
 
 class MaxLength implements Validatable
 {
@@ -24,13 +24,13 @@ class MaxLength implements Validatable
         $this->maxLength = (int) $maxLength;
     }
 
-    public function validate(mixed $value): ViolationsResult
+    public function validate(mixed $value): RuleResult
     {
         if (is_string($value) && strlen($value) <= $this->maxLength) {
-            return ViolationsResult::succeeded();
+            return RuleResult::succeeded();
         }
 
-        return ViolationsResult::failed(
+        return RuleResult::failed(
             new Violation(
                 keyword: self::KEYWORD,
                 args: $value,

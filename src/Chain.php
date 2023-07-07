@@ -23,7 +23,7 @@ class Chain
         $this->next = $rule;
     }
 
-    public function validate(mixed $value): ViolationsResult
+    public function validate(mixed $value): RuleResult
     {
         $result = $this->rule->validate($value);
 

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace MySaasPackage\Validation\Rules;
 
+use MySaasPackage\Validation\RuleResult;
 use MySaasPackage\Validation\Validatable;
 use MySaasPackage\Validation\Violation;
-use MySaasPackage\Validation\ViolationsResult;
 
 class SchemaType implements Validatable
 {
@@ -22,10 +22,10 @@ class SchemaType implements Validatable
         $this->properties[$property] = $ruleOrSchema;
     }
 
-    public function validate(mixed $value): ViolationsResult
+    public function validate(mixed $value): RuleResult
     {
         if (!is_array($value)) {
-            return ViolationsResult::failed(new Violation(self::KEYWORD, 'The value must be an array'));
+            return RuleResult::failed(new Violation(self::KEYWORD, 'The value must be an array'));
         }
 
         $schemaResult = [];
@@ -41,6 +41,6 @@ class SchemaType implements Validatable
             $schemaResult[$property] = $result;
         }
 
-        return new ViolationsResult($schemaResult);
+        return new RuleResult($schemaResult);
     }
 }

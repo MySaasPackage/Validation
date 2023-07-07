@@ -10,7 +10,7 @@ final class ViolationsResultTest extends TestCase
 {
     public function testCreateSucceededRuleValidationResult(): void
     {
-        $result = ViolationsResult::succeeded();
+        $result = RuleResult::succeeded();
         $this->assertTrue($result->isSucceeded());
         $this->assertFalse($result->isFailed());
     }
@@ -19,7 +19,7 @@ final class ViolationsResultTest extends TestCase
     {
         $violation = new Violation(keyword: 'keyword');
 
-        $result = ViolationsResult::failed($violation);
+        $result = RuleResult::failed($violation);
         $this->assertFalse($result->isSucceeded());
         $this->assertTrue($result->isFailed());
         $this->assertEquals([$violation], $result->getViolations());

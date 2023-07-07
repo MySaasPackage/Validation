@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace MySaasPackage\Validation\Rules;
 
+use MySaasPackage\Validation\RuleResult;
 use MySaasPackage\Validation\Validatable;
 use MySaasPackage\Validation\Violation;
-use MySaasPackage\Validation\ViolationsResult;
 
 class CollectionType implements Validatable
 {
@@ -17,10 +17,10 @@ class CollectionType implements Validatable
     ) {
     }
 
-    public function validate(mixed $value): ViolationsResult
+    public function validate(mixed $value): RuleResult
     {
         if (!is_array($value)) {
-            return ViolationsResult::failed(
+            return RuleResult::failed(
                 new Violation(
                     self::KEYWORD,
                     'The value must be an array'
@@ -38,6 +38,6 @@ class CollectionType implements Validatable
             $violationsResult[$key] = $itemViolationsResult;
         }
 
-        return new ViolationsResult($violationsResult);
+        return new RuleResult($violationsResult);
     }
 }

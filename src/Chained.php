@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MySaasPackage\Validation;
 
-abstract class ChainedValidator implements Validatable
+abstract class Chained implements Validatable
 {
     protected Chain|null $head = null;
     protected Chain|null $tail = null;
@@ -102,12 +102,12 @@ abstract class ChainedValidator implements Validatable
         return $this->add(new Rules\CollectionType($rule));
     }
 
-    public function validate(mixed $value): ViolationsResult
+    public function validate(mixed $value): RuleResult
     {
         return $this->validateChain($this->head, $value);
     }
 
-    protected function validateChain(Chain $node, mixed $value): ViolationsResult
+    protected function validateChain(Chain $node, mixed $value): RuleResult
     {
         $result = $node->validate($value);
 

@@ -4,26 +4,26 @@ declare(strict_types=1);
 
 namespace MySaasPackage\Validation;
 
-class ViolationsResult
+class RuleResult
 {
     public function __construct(
         protected readonly array $violations = []
     ) {
     }
 
-    public static function create(Violation ...$violations): ViolationsResult
+    public static function create(Violation ...$violations): RuleResult
     {
-        return new ViolationsResult($violations);
+        return new RuleResult($violations);
     }
 
-    public static function failed(Violation ...$violations): ViolationsResult
+    public static function failed(Violation ...$violations): RuleResult
     {
-        return new ViolationsResult($violations);
+        return new RuleResult($violations);
     }
 
-    public static function succeeded(): ViolationsResult
+    public static function succeeded(): RuleResult
     {
-        return new ViolationsResult();
+        return new RuleResult();
     }
 
     public function isSucceeded(): bool
@@ -41,11 +41,11 @@ class ViolationsResult
         return $this->violations;
     }
 
-    public function merge(ViolationsResult ...$results): ViolationsResult
+    public function merge(RuleResult ...$results): RuleResult
     {
         $violations = array_merge(
             ...array_map(static function ($result) {
-                if ($result instanceof ViolationsResult) {
+                if ($result instanceof RuleResult) {
                     return $result->getViolations();
                 }
 
@@ -53,7 +53,7 @@ class ViolationsResult
             }, $results)
         );
 
-        return ViolationsResult::create(...$this->violations, ...$violations);
+        return RuleResult::create(...$this->violations, ...$violations);
     }
 
     public function __toArray(): array

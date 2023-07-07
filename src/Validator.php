@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace MySaasPackage\Validation;
 
-class Validator extends Chained
+use MySaasPackage\Validation\Rules\Chained;
+
+class Validator
 {
-    public static function create(): self
+    public static function create(): Chained
     {
-        return new self();
+        return new Chained();
     }
 }

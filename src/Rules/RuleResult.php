@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-namespace MySaasPackage\Validation;
+namespace MySaasPackage\Validation\Rules;
 
-class SchemaResult
+use MySaasPackage\Validation\Violation;
+
+class RuleResult
 {
     public function __construct(
         protected readonly array $violations = []

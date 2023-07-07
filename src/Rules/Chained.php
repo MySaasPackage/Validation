@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-namespace MySaasPackage\Validation;
+namespace MySaasPackage\Validation\Rules;
 
-abstract class Chained implements Validatable
+use MySaasPackage\Validation\Validatable;
+
+class Chained implements Validatable
 {
     protected Chain|null $head = null;
     protected Chain|null $tail = null;
@@ -36,70 +38,70 @@ abstract class Chained implements Validatable
 
     public function required(): self
     {
-        return $this->add(new Rules\Required());
+        return $this->add(new Required());
     }
 
     public function optional(): self
     {
-        return $this->add(new Rules\Optional());
+        return $this->add(new Optional());
     }
 
     public function string(): self
     {
-        return $this->add(new Rules\StringType());
+        return $this->add(new StringType());
     }
 
     public function integer(): self
     {
-        return $this->add(new Rules\IntegerType());
+        return $this->add(new IntegerType());
     }
 
     public function phone(): self
     {
-        return $this->add(new Rules\PhoneType());
+        return $this->add(new PhoneType());
     }
 
     public function email(): self
     {
-        return $this->add(new Rules\EmailType());
+        return $this->add(new EmailType());
     }
 
     public function notEmpty(): self
     {
-        return $this->add(new Rules\NotEmpty());
+        return $this->add(new NotEmpty());
     }
 
     public function notNull(): self
     {
-        return $this->add(new Rules\NotNull());
+        return $this->add(new NotNull());
     }
 
     public function length(string|int $min, string|int $max): self
     {
-        return $this->add(new Rules\Length(
-            minLength: new Rules\MinLength($min),
-            maxLength: new Rules\MaxLength($max)
+        return $this->add(new Length(
+            minLength: new MinLength($min),
+            maxLength: new MaxLength($max)
         ));
     }
 
     public function minLength(int $min): self
     {
-        return $this->add(new Rules\MinLength($min));
+        return $this->add(new MinLength($min));
     }
 
     public function maxLength(int $max): self
     {
-        return $this->add(new Rules\MaxLength($max));
+        return $this->add(new MaxLength($max));
     }
 
     public function schema(array $schema): self
     {
-        return $this->add(new Rules\SchemaType($schema));
+        return $this->add(new SchemaType($schema));
     }
 
     public function collection(Validatable $rule): self
     {
-        return $this->add(new Rules\CollectionType($rule));
+        return $this->add(new CollectionType($rule));
     }
 
     public function validate(mixed $value): RuleResult

@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace MySaasPackage\Validation;
+namespace MySaasPackage\Validation\Rules;
+
+use MySaasPackage\Validation\Validatable;
 
 class Chain
 {

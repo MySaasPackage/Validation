@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace MySaasPackage\Validation;
+namespace MySaasPackage\Validation\Rules;
 
+use MySaasPackage\Validation\Violation;
 use PHPUnit\Framework\TestCase;
 
-final class ViolationsResultTest extends TestCase
+final class RuleResultTest extends TestCase
 {
     public function testCreateSucceededRuleValidationResult(): void
     {

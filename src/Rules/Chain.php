@@ -25,7 +25,7 @@ class Chain
         $this->next = $rule;
     }
 
-    public function validate(mixed $value): RuleResult
+    public function validate(mixed $value): RuleResult|SchemaResult
     {
         $result = $this->rule->validate($value);
 

@@ -6,7 +6,7 @@ namespace MySaasPackage\Validation\Rules;
 
 use MySaasPackage\Validation\Validatable;
 
-class Chained implements Validatable
+class Expect implements Validatable
 {
     protected Chain|null $head = null;
     protected Chain|null $tail = null;
@@ -94,9 +94,9 @@ class Chained implements Validatable
         return $this->add(new MaxLength($max));
     }
 
-    public function schema(array $schema): self
+    public function structure(array $structure): self
     {
-        return $this->add(new SchemaType($schema));
+        return $this->add(new Structure($structure));
     }
 
     public function collection(Validatable $rule): self
@@ -104,12 +104,12 @@ class Chained implements Validatable
         return $this->add(new CollectionType($rule));
     }
 
-    public function validate(mixed $value): RuleResult
+    public function validate(mixed $value): RuleResult|SchemaResult
     {
         return $this->validateChain($this->head, $value);
     }
 
-    protected function validateChain(Chain $node, mixed $value): RuleResult
+    protected function validateChain(Chain $node, mixed $value): RuleResult|SchemaResult
     {
         $result = $node->validate($value);
 

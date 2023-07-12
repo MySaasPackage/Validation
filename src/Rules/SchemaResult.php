@@ -4,62 +4,49 @@ declare(strict_types=1);
 
 namespace MySaasPackage\Validation\Rules;
 
-use MySaasPackage\Validation\Violation;
+use MySaasPackage\Validation\ValidatorResult;
 
-class SchemaResult
+class SchemaResult implements ValidatorResult
 {
     public function __construct(
-        protected readonly array $violations = []
+        protected readonly array $results = []
     ) {
     }
 
-    public static function create(Violation ...$violations): RuleResult
+    public static function create(SchemaPropertyResult ...$results): self
     {
-        return new RuleResult($violations);
+        return new self($results);
     }
 
-    public static function failed(Violation ...$violations): RuleResult
+    public static function failed(SchemaPropertyResult ...$results): self
     {
-        return new RuleResult($violations);
+        return new self($results);
     }
 
-    public static function succeeded(): RuleResult
+    public static function succeeded(): self
     {
-        return new RuleResult();
+        return new self();
     }
 
     public function isSucceeded(): bool
     {
-        return [] === $this->violations;
+        return [] === $this->results;
     }
 
     public function isFailed(): bool
     {
-        return [] !== $this->violations;
+        return [] !== $this->results;
     }
 
     public function getViolations(): array
     {
-        return $this->violations;
-    }
-
-    public function merge(RuleResult ...$results): RuleResult
-    {
-        $violations = array_merge(
-            ...array_map(static function ($result) {
-                if ($result instanceof RuleResult) {
-                    return $result->getViolations();
-                }
-
-                return $result;
-            }, $results)
-        );
-
-        return RuleResult::create(...$this->violations, ...$violations);
+        return $this->results;
     }
 
     public function __toArray(): array
     {
-        return array_map(fn ($violation) => $violation->__toArray(), $this->violations);
+        return array_reduce($this->results, static function (array $reduce, SchemaPropertyResult $result) {
+            return array_merge($reduce, $result->__toArray());
+        }, []);
     }
 }

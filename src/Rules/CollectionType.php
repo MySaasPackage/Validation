@@ -19,24 +19,22 @@ class CollectionType implements Validatable
     public function validate(mixed $value): RuleResult
     {
         if (!is_array($value)) {
-            return RuleResult::failed(
-                new Violation(
-                    self::KEYWORD,
-                    'The value must be an array'
-                )
-            );
+            return RuleResult::failed(new Violation(
+                self::KEYWORD,
+                'The value must be an array'
+            ));
         }
 
-        $violationsResult = [];
+        $results = [];
         foreach ($value as $key => $item) {
-            $itemViolationsResult = $this->type->validate($item);
-            if ($itemViolationsResult->isSucceeded()) {
+            $itemResult = $this->type->validate($item);
+            if ($itemResult->isSucceeded()) {
                 continue;
             }
 
-            $violationsResult[$key] = $itemViolationsResult;
+            $results[$key] = $itemResult;
         }
 
-        return new RuleResult($violationsResult);
+        return new RuleResult($results);
     }
 }

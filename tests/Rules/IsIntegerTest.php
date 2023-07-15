@@ -6,13 +6,13 @@ namespace MySaasPackage\Validation\Rules;
 
 use PHPUnit\Framework\TestCase;
 
-final class IntegerTypeTest extends TestCase
+final class IsIntegerTest extends TestCase
 {
-    protected IntegerType $rule;
+    protected IsInteger $rule;
 
     public function setup(): void
     {
-        $this->rule = new IntegerType();
+        $this->rule = new IsInteger();
     }
 
     public function testIntegerTypeRuleSuccessfully(): void
@@ -27,10 +27,8 @@ final class IntegerTypeTest extends TestCase
         $result = $this->rule->validate('8');
         $this->assertFalse($result->isSucceeded());
         $this->assertTrue($result->isFailed());
-        $this->assertCount(1, $result->getViolations());
-        [$violation] = $result->getViolations();
-        $this->assertEquals(IntegerType::KEYWORD, $violation->keyword);
-        $this->assertEquals('8', $violation->args);
-        $this->assertEquals('The value must be a integer, got string', $violation->message);
+        $violation = $result->getViolation();
+        $this->assertEquals(IsInteger::KEYWORD, $violation->keyword);
+        $this->assertequals('The provided value is not an integer', $violation->message);
     }
 }

@@ -6,13 +6,13 @@ namespace MySaasPackage\Validation\Rules;
 
 use PHPUnit\Framework\TestCase;
 
-final class CollectionTypeTest extends TestCase
+final class IsCollectionTest extends TestCase
 {
-    protected CollectionType $rule;
+    protected IsCollection $rule;
 
     public function setup(): void
     {
-        $this->rule = new CollectionType(new EmailType());
+        $this->rule = new IsCollection();
     }
 
     public function testCollectionTypeRuleSuccessfully(): void
@@ -24,12 +24,11 @@ final class CollectionTypeTest extends TestCase
 
     public function testCollectionTypeRuleFailed(): void
     {
-        $result = $this->rule->validate(['alef@gmail.com', 'invalid@email']);
+        $result = $this->rule->validate('alef@gmail.com');
         $this->assertFalse($result->isSucceeded());
         $this->assertTrue($result->isFailed());
-        [,[['keyword' => $keyword, 'message' => $message, 'args' => $args]]] = $result->__toArray();
-        $this->assertEquals(EmailType::KEYWORD, $keyword);
-        $this->assertEquals('invalid@email', $args);
-        $this->assertEquals('The value provided must be a valid email', $message);
+        $violation = $result->getViolation();
+        $this->assertEquals(IsCollection::KEYWORD, $violation->keyword);
+        $this->assertequals('The provided value is not a collection', $violation->message);
     }
 }

@@ -6,13 +6,13 @@ namespace MySaasPackage\Validation\Rules;
 
 use PHPUnit\Framework\TestCase;
 
-final class EmailTypeTest extends TestCase
+final class IsEmailTest extends TestCase
 {
-    protected EmailType $rule;
+    protected IsEmail $rule;
 
     public function setup(): void
     {
-        $this->rule = new EmailType();
+        $this->rule = new IsEmail();
     }
 
     public function testEmailTypeRuleSuccessfully(): void
@@ -27,10 +27,8 @@ final class EmailTypeTest extends TestCase
         $result = $this->rule->validate('invalid@email');
         $this->assertFalse($result->isSucceeded());
         $this->assertTrue($result->isFailed());
-        $this->assertCount(1, $result->getViolations());
-        [$violation] = $result->getViolations();
-        $this->assertEquals(EmailType::KEYWORD, $violation->keyword);
-        $this->assertEquals('invalid@email', $violation->args);
-        $this->assertEquals('The value provided must be a valid email', $violation->message);
+        $violation = $result->getViolation();
+        $this->assertEquals(IsEmail::KEYWORD, $violation->keyword);
+        $this->assertequals('The provided value is not a email', $violation->message);
     }
 }

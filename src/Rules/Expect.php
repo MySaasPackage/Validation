@@ -48,22 +48,22 @@ class Expect implements Validatable
 
     public function string(): self
     {
-        return $this->add(new StringType());
+        return $this->add(new IsString());
     }
 
     public function integer(): self
     {
-        return $this->add(new IntegerType());
+        return $this->add(new IsInteger());
     }
 
     public function phone(): self
     {
-        return $this->add(new PhoneType());
+        return $this->add(new IsPhone());
     }
 
     public function email(): self
     {
-        return $this->add(new EmailType());
+        return $this->add(new IsEmail());
     }
 
     public function notEmpty(): self
@@ -101,7 +101,7 @@ class Expect implements Validatable
 
     public function collection(Validatable $rule): self
     {
-        return $this->add(new CollectionType($rule));
+        return $this->add(new IsCollection($rule));
     }
 
     public function validate(mixed $value): RuleResult|SchemaResult

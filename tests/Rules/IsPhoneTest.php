@@ -6,13 +6,13 @@ namespace MySaasPackage\Validation\Rules;
 
 use PHPUnit\Framework\TestCase;
 
-final class PhoneTypeTest extends TestCase
+final class IsPhoneTest extends TestCase
 {
-    protected PhoneType $rule;
+    protected IsPhone $rule;
 
     public function setup(): void
     {
-        $this->rule = new PhoneType();
+        $this->rule = new IsPhone();
     }
 
     public function testPhoneTypeRuleSuccessfully(): void
@@ -27,10 +27,8 @@ final class PhoneTypeTest extends TestCase
         $result = $this->rule->validate('invalid');
         $this->assertFalse($result->isSucceeded());
         $this->assertTrue($result->isFailed());
-        $this->assertCount(1, $result->getViolations());
-        [$violation] = $result->getViolations();
-        $this->assertEquals(PhoneType::KEYWORD, $violation->keyword);
-        $this->assertEquals('invalid', $violation->args);
-        $this->assertEquals('The value provided must be a valid phone number', $violation->message);
+        $violation = $result->getViolation();
+        $this->assertEquals(IsPhone::KEYWORD, $violation->keyword);
+        $this->assertequals('The provided value is not a phone', $violation->message);
     }
 }

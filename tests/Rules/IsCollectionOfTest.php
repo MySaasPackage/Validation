@@ -40,5 +40,7 @@ final class IsCollectionOfTest extends TestCase
         $violation = $result->getViolation();
         $this->assertEquals(IsCollectionOf::KEYWORD, $violation->keyword);
         $this->assertequals('The provided value contains invalid items', $violation->message);
+        $this->assertEquals(IsEmail::KEYWORD, $violation->getChildren()->keyword);
+        $this->assertEquals('The provided value is not a email', $violation->getChildren()->message);
     }
 }

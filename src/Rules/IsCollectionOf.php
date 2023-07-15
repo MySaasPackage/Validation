@@ -20,27 +20,23 @@ class IsCollectionOf implements Validatable
     public function validate(mixed $value): ValidatableResult
     {
         if (false === is_array($value)) {
-            return ValidatableResult::failed(
-                new Violation(self::KEYWORD, 'The provided value is not a collection')
-            );
+            return ValidatableResult::failed(new Violation(self::KEYWORD, 'The provided value is not a collection'));
         }
 
-        $filterInvalidResults = function (array $results, mixed $item) {
+        $violation = new Violation(self::KEYWORD, 'The provided value contains invalid items');
+
+        foreach ($value as $key => $item) {
             $result = $this->rule->validate($item);
 
-            if ($result->isFailed()) {
-                $results[] = $result;
+            if ($result->isSucceeded()) {
+                continue;
             }
 
-            return $results;
-        };
+            $violation->addChild($result->getViolation()->withPath(sprintf('[%s]', $key)));
+        }
 
-        $results = array_reduce($value, $filterInvalidResults, []);
-
-        if (count($results) > 0) {
-            return ValidatableResult::failed(
-                new Violation(self::KEYWORD, 'The provided value contains invalid items')
-            );
+        if ($violation->hasChildren()) {
+            return ValidatableResult::failed($violation);
         }
 
         return ValidatableResult::succeeded();

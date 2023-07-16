@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MySaasPackage\Validation\Rules;
 
 use MySaasPackage\Validation\Validatable;
+use MySaasPackage\Validation\ValidatableResult;
 
 class Expect implements Validatable
 {
@@ -104,12 +105,12 @@ class Expect implements Validatable
         return $this->add(new IsCollection($rule));
     }
 
-    public function validate(mixed $value): RuleResult|SchemaResult
+    public function validate(mixed $value): ValidatableResult
     {
         return $this->validateChain($this->head, $value);
     }
 
-    protected function validateChain(Chain $node, mixed $value): RuleResult|SchemaResult
+    protected function validateChain(Chain $node, mixed $value): ValidatableResult
     {
         $result = $node->validate($value);
 

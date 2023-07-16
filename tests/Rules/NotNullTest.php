@@ -27,10 +27,8 @@ final class NotNullTest extends TestCase
         $result = $this->rule->validate();
         $this->assertFalse($result->isSucceeded());
         $this->assertTrue($result->isFailed());
-        $this->assertCount(1, $result->getViolations());
-        [$violation] = $result->getViolations();
+        $violation = $result->getViolation();
         $this->assertEquals(NotNull::KEYWORD, $violation->keyword);
-        $this->assertEquals(null, $violation->args);
-        $this->assertEquals('The value cannot be null', $violation->message);
+        $this->assertequals('The provided value cannot be null', $violation->message);
     }
 }

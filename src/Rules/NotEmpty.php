@@ -5,23 +5,24 @@ declare(strict_types=1);
 namespace MySaasPackage\Validation\Rules;
 
 use MySaasPackage\Validation\Validatable;
+use MySaasPackage\Validation\ValidatableResult;
 use MySaasPackage\Validation\Violation;
 
 class NotEmpty implements Validatable
 {
     public const KEYWORD = 'value.empty';
 
-    public function validate(mixed $value): RuleResult
+    public function validate(mixed $value): ValidatableResult
     {
         if (!empty($value)) {
-            return RuleResult::succeeded();
+            return ValidatableResult::succeeded();
         }
 
-        return RuleResult::failed(
+        return ValidatableResult::failed(
             new Violation(
                 keyword: self::KEYWORD,
                 args: $value,
-                message: 'The value cannot be empty'
+                message: 'The provided value cannot be empty'
             )
         );
     }

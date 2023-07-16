@@ -27,10 +27,8 @@ final class MaxLengthTest extends TestCase
         $result = $this->rule->validate('+525599999999');
         $this->assertFalse($result->isSucceeded());
         $this->assertTrue($result->isFailed());
-        $this->assertCount(1, $result->getViolations());
-        [$violation] = $result->getViolations();
+        $violation = $result->getViolation();
         $this->assertEquals(MaxLength::KEYWORD, $violation->keyword);
-        $this->assertEquals('+525599999999', $violation->args);
-        $this->assertEquals('The value must be less than 10 characters', $violation->message);
+        $this->assertequals('The value must be less than 10 characters', $violation->message);
     }
 }

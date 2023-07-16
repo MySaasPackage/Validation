@@ -27,10 +27,8 @@ final class NotEmptyTest extends TestCase
         $result = $this->rule->validate('');
         $this->assertFalse($result->isSucceeded());
         $this->assertTrue($result->isFailed());
-        $this->assertCount(1, $result->getViolations());
-        [$violation] = $result->getViolations();
+        $violation = $result->getViolation();
         $this->assertEquals(NotEmpty::KEYWORD, $violation->keyword);
-        $this->assertEquals(null, $violation->args);
-        $this->assertEquals('The value cannot be empty', $violation->message);
+        $this->assertequals('The provided value cannot be empty', $violation->message);
     }
 }

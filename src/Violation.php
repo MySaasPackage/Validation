@@ -6,9 +6,8 @@ namespace MySaasPackage\Validation;
 
 class Violation
 {
-    protected ?string $path = null;
-    protected ?Violation $children = null;
-    protected ?Violation $sibling = null;
+    protected Violation|array|null $childrens = null;
+    protected Violation|null $sibling = null;
 
     public function __construct(
         public readonly string $keyword,
@@ -17,40 +16,28 @@ class Violation
     ) {
     }
 
-    public function withPath(string $path): self
+    public function getChildren(): Violation|array|null
     {
-        $this->path = $path;
-
-        return $this;
-    }
-
-    public function getPath(): ?string
-    {
-        return $this->path;
-    }
-
-    public function getChildren(): ?Violation
-    {
-        return $this->children;
+        return $this->childrens;
     }
 
     public function hasChildren(): bool
     {
-        return null !== $this->children;
+        return null !== $this->childrens;
     }
 
     public function addChild(Violation $violation): self
     {
-        if (null === $this->children) {
-            $this->children = $violation;
+        if (null === $this->childrens) {
+            $this->childrens = $violation;
         } else {
-            $this->children->addSibling($violation);
+            $this->childrens->addSibling($violation);
         }
 
         return $this;
     }
 
-    public function getSibling(): ?Violation
+    public function getSibling(): Violation|null
     {
         return $this->sibling;
     }
@@ -69,5 +56,27 @@ class Violation
         }
 
         return $this;
+    }
+
+    public function __toArray(): array
+    {
+        $item = [
+            'keyword' => $this->keyword,
+            'message' => $this->message,
+        ];
+
+        if ($this->args) {
+            $item['args'] = $this->args;
+        }
+
+        if ($this->hasChildren()) {
+            $item['childrens'] = $this->childrens->__toArray();
+        }
+
+        if ($this->hasSibling()) {
+            return array_merge([$item], $this->sibling->__toArray());
+        }
+
+        return [$item];
     }
 }

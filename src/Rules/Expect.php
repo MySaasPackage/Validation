@@ -9,8 +9,8 @@ use MySaasPackage\Validation\ValidatableResult;
 
 class Expect implements Validatable
 {
-    protected Chain|null $head = null;
-    protected Chain|null $tail = null;
+    protected ChainNode|null $head = null;
+    protected ChainNode|null $tail = null;
 
     public function __construct(
         protected array $rules = []
@@ -22,9 +22,9 @@ class Expect implements Validatable
 
     public function add(Validatable $rule): self
     {
-        $node = new Chain($rule);
+        $node = new ChainNode($rule);
 
-        if (!$this->head instanceof Chain) {
+        if (!$this->head instanceof ChainNode) {
             $this->head = $node;
             $this->tail = $node;
 
@@ -35,6 +35,11 @@ class Expect implements Validatable
         $this->tail = $node;
 
         return $this;
+    }
+
+    public static function create(): self
+    {
+        return new self();
     }
 
     public function required(): self
@@ -100,9 +105,14 @@ class Expect implements Validatable
         return $this->add(new Structure($structure));
     }
 
-    public function collection(Validatable $rule): self
+    public function collection(): self
     {
-        return $this->add(new IsCollection($rule));
+        return $this->add(new IsCollection());
+    }
+
+    public function collectionOf(Validatable $rule): self
+    {
+        return $this->add(new IsCollectionOf($rule));
     }
 
     public function validate(mixed $value): ValidatableResult
@@ -110,7 +120,7 @@ class Expect implements Validatable
         return $this->validateChain($this->head, $value);
     }
 
-    protected function validateChain(Chain $node, mixed $value): ValidatableResult
+    protected function validateChain(ChainNode $node, mixed $value): ValidatableResult
     {
         $result = $node->validate($value);
 

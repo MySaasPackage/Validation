@@ -35,4 +35,19 @@ class ValidatableResult
     {
         return $this->violation;
     }
+
+    public function merge(ValidatableResult $result): self
+    {
+        if ($result->isSucceeded()) {
+            return $this;
+        }
+
+        if ($this->isSucceeded()) {
+            return $result;
+        }
+
+        $this->violation->addSibling($result->getViolation());
+
+        return $this;
+    }
 }

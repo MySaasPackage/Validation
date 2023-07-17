@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace MySaasPackage\Validation\Rules;
 
 use MySaasPackage\Validation\Validatable;
+use MySaasPackage\Validation\ValidatableResult;
 
-class Chain
+class ChainNode
 {
-    public Chain|null $next = null;
+    public ChainNode|null $next = null;
 
     public function __construct(
         public readonly Validatable $rule,
@@ -17,15 +18,15 @@ class Chain
 
     public function hasNext(): bool
     {
-        return $this->next instanceof Chain;
+        return $this->next instanceof ChainNode;
     }
 
-    public function setNextRule(Chain $rule): void
+    public function setNextRule(ChainNode $rule): void
     {
         $this->next = $rule;
     }
 
-    public function validate(mixed $value): RuleResult|SchemaResult
+    public function validate(mixed $value): ValidatableResult
     {
         $result = $this->rule->validate($value);
 

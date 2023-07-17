@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace MySaasPackage\Validation\Rules;
+namespace MySaasPackage\Validation;
 
 use PHPUnit\Framework\TestCase;
 
-final class ExpectTest extends TestCase
+final class ValidatableChainTest extends TestCase
 {
     public function testCollectionSuccessfully(): void
     {

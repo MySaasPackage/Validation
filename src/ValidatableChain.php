@@ -2,10 +2,23 @@
 
 declare(strict_types=1);
 
-namespace MySaasPackage\Validation\Rules;
+namespace MySaasPackage\Validation;
 
-use MySaasPackage\Validation\Validatable;
-use MySaasPackage\Validation\ValidatableResult;
+use MySaasPackage\Validation\Rules\Chain;
+use MySaasPackage\Validation\Rules\IsCollection;
+use MySaasPackage\Validation\Rules\IsCollectionOf;
+use MySaasPackage\Validation\Rules\IsEmail;
+use MySaasPackage\Validation\Rules\IsInteger;
+use MySaasPackage\Validation\Rules\IsPhone;
+use MySaasPackage\Validation\Rules\IsString;
+use MySaasPackage\Validation\Rules\Length;
+use MySaasPackage\Validation\Rules\MaxLength;
+use MySaasPackage\Validation\Rules\MinLength;
+use MySaasPackage\Validation\Rules\NotEmpty;
+use MySaasPackage\Validation\Rules\NotNull;
+use MySaasPackage\Validation\Rules\Optional;
+use MySaasPackage\Validation\Rules\Required;
+use MySaasPackage\Validation\Rules\Structure;
 
 class ValidatableChain implements Validatable
 {

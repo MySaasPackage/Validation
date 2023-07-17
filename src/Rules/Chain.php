@@ -7,9 +7,9 @@ namespace MySaasPackage\Validation\Rules;
 use MySaasPackage\Validation\Validatable;
 use MySaasPackage\Validation\ValidatableResult;
 
-class ChainNode
+class Chain
 {
-    public ChainNode|null $next = null;
+    public Chain|null $next = null;
 
     public function __construct(
         public readonly Validatable $rule,
@@ -18,10 +18,10 @@ class ChainNode
 
     public function hasNext(): bool
     {
-        return $this->next instanceof ChainNode;
+        return $this->next instanceof Chain;
     }
 
-    public function setNextRule(ChainNode $rule): void
+    public function setNextRule(Chain $rule): void
     {
         $this->next = $rule;
     }

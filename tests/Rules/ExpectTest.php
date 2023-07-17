@@ -10,7 +10,7 @@ final class ExpectTest extends TestCase
 {
     public function testCollectionSuccessfully(): void
     {
-        $chain = Expect::create()
+        $chain = ValidatableChain::create()
             ->collection();
 
         $result = $chain->validate(['alef@gmail.com']);
@@ -19,8 +19,8 @@ final class ExpectTest extends TestCase
 
     public function testCollectionOfSuccessfully(): void
     {
-        $chain = Expect::create()
-            ->collectionOf(Expect::create()->email());
+        $chain = ValidatableChain::create()
+            ->collectionOf(ValidatableChain::create()->email());
 
         $result = $chain->validate(['alef@gmail.com', 'sara@gmail.com']);
         $this->assertTrue($result->isSucceeded());
@@ -28,7 +28,7 @@ final class ExpectTest extends TestCase
 
     public function testEmailSuccessfully(): void
     {
-        $chain = Expect::create()
+        $chain = ValidatableChain::create()
             ->required()
             ->email();
 
@@ -38,7 +38,7 @@ final class ExpectTest extends TestCase
 
     public function testPhoneSuccessfully(): void
     {
-        $chain = Expect::create()
+        $chain = ValidatableChain::create()
             ->required()
             ->phone();
 

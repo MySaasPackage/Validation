@@ -29,6 +29,6 @@ final class MinLengthTest extends TestCase
         $this->assertTrue($result->isFailed());
         $violation = $result->getViolation();
         $this->assertEquals(MinLength::KEYWORD, $violation->keyword);
-        $this->assertequals('The value must be at least 10 characters long', $violation->message);
+        $this->assertequals('The value must be at least 10 characters', $violation->message);
     }
 }

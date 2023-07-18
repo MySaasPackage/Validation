@@ -34,9 +34,7 @@ class MinLength implements Validatable
             new Violation(
                 keyword: self::KEYWORD,
                 args: $value,
-                message: MessageFormatter::format('The value must be at least {minLength} characters long', [
-                    'minLength' => $this->minLength,
-                ]),
+                message: MessageFormatter::format('The value must be at least {minLength} characters', ['minLength' => $this->minLength]),
             )
         );
     }

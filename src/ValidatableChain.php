@@ -138,7 +138,7 @@ class ValidatableChain implements Validatable
         $result = $node->validate($value);
 
         if ($node->hasNext()) {
-            return $result->merge($this->validateChain($node->next, $value));
+            $result = $result->merge($this->validateChain($node->next, $value));
         }
 
         return $result;

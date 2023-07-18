@@ -18,7 +18,7 @@ class MaxLength implements Validatable
         protected string|int $maxLength,
     ) {
         if (!is_numeric($maxLength)) {
-            throw new InvalidArgumentException('MaxLength must be a number');
+            throw new InvalidArgumentException('MaxLength param must be a number');
         }
 
         $this->maxLength = (int) $maxLength;

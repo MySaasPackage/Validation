@@ -7,7 +7,7 @@ namespace MySaasPackage\Validation;
 class ValidatableResult
 {
     public function __construct(
-        protected readonly ?Violation $violation = null,
+        protected readonly Violation|null $violation = null,
     ) {
     }
 
@@ -31,19 +31,19 @@ class ValidatableResult
         return null !== $this->violation;
     }
 
-    public function getViolation(): ?Violation
+    public function getViolation(): Violation|null
     {
         return $this->violation;
     }
 
     public function merge(ValidatableResult $result): self
     {
-        if ($result->isSucceeded()) {
-            return $this;
-        }
-
         if ($this->isSucceeded()) {
             return $result;
+        }
+
+        if ($result->isSucceeded()) {
+            return $this;
         }
 
         $this->violation->addSibling($result->getViolation());

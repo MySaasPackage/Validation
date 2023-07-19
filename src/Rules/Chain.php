@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace MySaasPackage\Validation\Rules;
 
+use MySaasPackage\Validation\RuleResult;
 use MySaasPackage\Validation\Validatable;
-use MySaasPackage\Validation\ValidatableResult;
 
 class Chain
 {
@@ -26,7 +26,7 @@ class Chain
         $this->next = $rule;
     }
 
-    public function validate(mixed $value): ValidatableResult
+    public function validate(mixed $value): RuleResult
     {
         $result = $this->rule->validate($value);
 

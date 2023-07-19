@@ -6,17 +6,16 @@ namespace MySaasPackage\Validation;
 
 class Violation
 {
-    protected Violation|array|null $childrens = null;
+    protected Violation|null $childrens = null;
     protected Violation|null $sibling = null;
 
     public function __construct(
         public readonly string $keyword,
-        public readonly string $message,
-        public readonly mixed $args = null
+        public readonly string $message
     ) {
     }
 
-    public function getChildren(): Violation|array|null
+    public function getChildren(): Violation|null
     {
         return $this->childrens;
     }
@@ -64,10 +63,6 @@ class Violation
             'keyword' => $this->keyword,
             'message' => $this->message,
         ];
-
-        if ($this->args) {
-            $item['args'] = $this->args;
-        }
 
         if ($this->hasChildren()) {
             $item['childrens'] = $this->childrens->__toArray();

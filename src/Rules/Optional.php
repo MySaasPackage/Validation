@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace MySaasPackage\Validation\Rules;
 
+use MySaasPackage\Validation\RuleResult;
 use MySaasPackage\Validation\Validatable;
-use MySaasPackage\Validation\ValidatableResult;
 
 class Optional implements Validatable
 {
-    public function validate(mixed $value = null): ValidatableResult
+    public function validate(mixed $value = null): RuleResult
     {
-        return ValidatableResult::succeeded();
+        return RuleResult::succeeded();
     }
 }

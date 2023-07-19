@@ -128,12 +128,12 @@ class ValidatableChain implements Validatable
         return $this->add(new IsCollectionOf($rule));
     }
 
-    public function validate(mixed $value): ValidatableResult
+    public function validate(mixed $value): RuleResult
     {
         return $this->validateChain($this->head, $value);
     }
 
-    protected function validateChain(Chain $node, mixed $value): ValidatableResult
+    protected function validateChain(Chain $node, mixed $value): RuleResult
     {
         $result = $node->validate($value);
 

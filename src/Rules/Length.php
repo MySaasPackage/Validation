@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace MySaasPackage\Validation\Rules;
 
+use MySaasPackage\Validation\RuleResult;
 use MySaasPackage\Validation\Validatable;
-use MySaasPackage\Validation\ValidatableResult;
 
 class Length implements Validatable
 {
@@ -15,7 +15,7 @@ class Length implements Validatable
     ) {
     }
 
-    public function validate(mixed $value): ValidatableResult
+    public function validate(mixed $value): RuleResult
     {
         $minLengthResult = $this->minLength->validate($value);
         $maxLengthResult = $this->maxLength->validate($value);

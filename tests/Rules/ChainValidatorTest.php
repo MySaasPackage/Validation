@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace MySaasPackage\Validation;
+namespace MySaasPackage\Validation\Rules;
 
 use PHPUnit\Framework\TestCase;
 
-final class ValidatableChainTest extends TestCase
+final class ChainValidatorTest extends TestCase
 {
     public function testSuccessfully(): void
     {
-        $chain = ValidatableChain::create()
+        $chain = ChainValidator::create()
             ->required()
             ->length(8, 20);
 
@@ -20,7 +20,7 @@ final class ValidatableChainTest extends TestCase
 
     public function testCollectionSuccessfully(): void
     {
-        $chain = ValidatableChain::create()
+        $chain = ChainValidator::create()
             ->collection();
 
         $result = $chain->validate(['alef@gmail.com']);
@@ -29,8 +29,8 @@ final class ValidatableChainTest extends TestCase
 
     public function testCollectionOfSuccessfully(): void
     {
-        $chain = ValidatableChain::create()
-            ->collectionOf(ValidatableChain::create()->email());
+        $chain = ChainValidator::create()
+            ->collectionOf(ChainValidator::create()->email());
 
         $result = $chain->validate(['alef@gmail.com', 'sara@gmail.com']);
         $this->assertTrue($result->isSucceeded());
@@ -38,7 +38,7 @@ final class ValidatableChainTest extends TestCase
 
     public function testEmailSuccessfully(): void
     {
-        $chain = ValidatableChain::create()
+        $chain = ChainValidator::create()
             ->required()
             ->email();
 
@@ -48,7 +48,7 @@ final class ValidatableChainTest extends TestCase
 
     public function testPhoneSuccessfully(): void
     {
-        $chain = ValidatableChain::create()
+        $chain = ChainValidator::create()
             ->required()
             ->phone();
 

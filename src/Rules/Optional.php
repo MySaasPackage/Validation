@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace MySaasPackage\Validation\Rules;
 
-use MySaasPackage\Validation\RuleResult;
 use MySaasPackage\Validation\Validatable;
 
 class Optional implements Validatable

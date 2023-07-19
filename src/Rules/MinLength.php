@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace MySaasPackage\Validation\Rules;
 
 use InvalidArgumentException;
-use MySaasPackage\Validation\RuleResult;
 use MySaasPackage\Validation\Utils\MessageFormatter;
 use MySaasPackage\Validation\Validatable;
 use MySaasPackage\Validation\Violation;

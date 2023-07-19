@@ -2,7 +2,10 @@
 
 declare(strict_types=1);
 
-namespace MySaasPackage\Validation;
+namespace MySaasPackage\Validation\Rules;
+
+use MySaasPackage\Validation\ValidatableResult;
+use MySaasPackage\Validation\Violation;
 
 class RuleResult implements ValidatableResult
 {

@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace MySaasPackage\Validation;
 
+use MySaasPackage\Validation\Rules\ChainValidator;
+
 class Validator
 {
-    public static function create(): ValidatableChain
+    public static function chain(): ChainValidator
     {
-        return ValidatableChain::create();
+        return ChainValidator::create();
     }
 }

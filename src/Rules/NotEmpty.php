@@ -6,22 +6,21 @@ namespace MySaasPackage\Validation\Rules;
 
 use MySaasPackage\Validation\Validatable;
 use MySaasPackage\Validation\Violation;
+use MySaasPackage\Validation\Violations\SimpleViolation;
 
 class NotEmpty implements Validatable
 {
     public const KEYWORD = 'value.empty';
 
-    public function validate(mixed $value): RuleResult
+    public function validate(mixed $value): Violation|null
     {
         if (!empty($value)) {
-            return RuleResult::succeeded();
+            return null;
         }
 
-        return RuleResult::failed(
-            new Violation(
-                keyword: self::KEYWORD,
-                message: 'The provided value cannot be empty'
-            )
+        return new SimpleViolation(
+            keyword: self::KEYWORD,
+            message: 'The provided value cannot be empty'
         );
     }
 }

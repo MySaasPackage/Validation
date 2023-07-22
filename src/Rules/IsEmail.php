@@ -6,6 +6,7 @@ namespace MySaasPackage\Validation\Rules;
 
 use MySaasPackage\Validation\Validatable;
 use MySaasPackage\Validation\Violation;
+use MySaasPackage\Validation\Violations\SimpleViolation;
 
 class IsEmail implements Validatable
 {
@@ -13,17 +14,15 @@ class IsEmail implements Validatable
 
     public const KEYWORD = 'email.mismatch';
 
-    public function validate(mixed $value): RuleResult
+    public function validate(mixed $value): Violation|null
     {
         if (is_string($value) && (bool) preg_match(self::REGEX, (string) $value)) {
-            return RuleResult::succeeded();
+            return null;
         }
 
-        return RuleResult::failed(
-            new Violation(
-                keyword: self::KEYWORD,
-                message: 'The provided value is not a email'
-            )
+        return new SimpleViolation(
+            keyword: self::KEYWORD,
+            message: 'The provided value must be a valid email'
         );
     }
 }

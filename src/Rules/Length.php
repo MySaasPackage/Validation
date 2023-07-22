@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MySaasPackage\Validation\Rules;
 
 use MySaasPackage\Validation\Validatable;
+use MySaasPackage\Validation\Violation;
 
 class Length implements Validatable
 {
@@ -14,19 +15,19 @@ class Length implements Validatable
     ) {
     }
 
-    public function validate(mixed $value): RuleResult
+    public function validate(mixed $value): Violation
     {
-        $minLengthResult = $this->minLength->validate($value);
-        $maxLengthResult = $this->maxLength->validate($value);
+        $minLengthViolationOrNull = $this->minLength->validate($value);
+        $maxLengthViolationOrNull = $this->maxLength->validate($value);
 
-        if ($minLengthResult->isSucceeded()) {
-            return $maxLengthResult;
+        if (null === $minLengthViolationOrNull) {
+            return $maxLengthViolationOrNull;
         }
 
-        if ($maxLengthResult->isSucceeded()) {
-            return $minLengthResult;
+        if (null === $maxLengthViolationOrNull) {
+            return $minLengthViolationOrNull;
         }
 
-        return $minLengthResult->merge($maxLengthResult);
+        return $minLengthViolationOrNull->addSibling($maxLengthViolationOrNull);
     }
 }

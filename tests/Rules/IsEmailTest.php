@@ -15,20 +15,17 @@ final class IsEmailTest extends TestCase
         $this->rule = new IsEmail();
     }
 
-    public function testEmailTypeRuleSuccessfully(): void
+    public function testSuccessful(): void
     {
-        $result = $this->rule->validate('valid@email.com');
-        $this->assertTrue($result->isSucceeded());
-        $this->assertFalse($result->isFailed());
+        $violationOrNull = $this->rule->validate('valid@email.com');
+        $this->assertSame(null, $violationOrNull);
     }
 
-    public function testStringTypeRuleWithInvalidInput(): void
+    public function testFailed(): void
     {
-        $result = $this->rule->validate('invalid@email');
-        $this->assertFalse($result->isSucceeded());
-        $this->assertTrue($result->isFailed());
-        $violation = $result->getViolation();
-        $this->assertEquals(IsEmail::KEYWORD, $violation->keyword);
-        $this->assertequals('The provided value is not a email', $violation->message);
+        $violationOrNull = $this->rule->validate('invalid@email');
+        $this->assertNotSame(null, $violationOrNull);
+        $this->assertEquals(IsEmail::KEYWORD, $violationOrNull->keyword);
+        $this->assertequals('The provided value must be a valid email', $violationOrNull->message);
     }
 }

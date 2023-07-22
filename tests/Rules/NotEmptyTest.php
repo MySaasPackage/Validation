@@ -15,20 +15,17 @@ final class NotEmptyTest extends TestCase
         $this->rule = new NotEmpty();
     }
 
-    public function testNotEmptyRuleSuccessfully(): void
+    public function testSuccessful(): void
     {
-        $result = $this->rule->validate('valid text');
-        $this->assertTrue($result->isSucceeded());
-        $this->assertFalse($result->isFailed());
+        $violationOrNull = $this->rule->validate('valid text');
+        $this->assertSame(null, $violationOrNull);
     }
 
-    public function testStringTypeRuleWithInvalidInput(): void
+    public function testFailed(): void
     {
-        $result = $this->rule->validate('');
-        $this->assertFalse($result->isSucceeded());
-        $this->assertTrue($result->isFailed());
-        $violation = $result->getViolation();
-        $this->assertEquals(NotEmpty::KEYWORD, $violation->keyword);
-        $this->assertequals('The provided value cannot be empty', $violation->message);
+        $violationOrNull = $this->rule->validate('');
+        $this->assertNotSame(null, $violationOrNull);
+        $this->assertEquals(NotEmpty::KEYWORD, $violationOrNull->keyword);
+        $this->assertequals('The provided value cannot be empty', $violationOrNull->message);
     }
 }

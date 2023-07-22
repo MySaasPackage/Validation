@@ -15,20 +15,17 @@ final class NotNullTest extends TestCase
         $this->rule = new NotNull();
     }
 
-    public function testNotNullRuleSuccessfully(): void
+    public function testSuccessful(): void
     {
-        $result = $this->rule->validate('foo');
-        $this->assertTrue($result->isSucceeded());
-        $this->assertFalse($result->isFailed());
+        $violationOrNull = $this->rule->validate('foo');
+        $this->assertSame(null, $violationOrNull);
     }
 
-    public function testStringTypeRuleWithInvalidInput(): void
+    public function testFailed(): void
     {
-        $result = $this->rule->validate();
-        $this->assertFalse($result->isSucceeded());
-        $this->assertTrue($result->isFailed());
-        $violation = $result->getViolation();
-        $this->assertEquals(NotNull::KEYWORD, $violation->keyword);
-        $this->assertequals('The provided value cannot be null', $violation->message);
+        $violationOrNull = $this->rule->validate();
+        $this->assertNotSame(null, $violationOrNull);
+        $this->assertEquals(NotNull::KEYWORD, $violationOrNull->keyword);
+        $this->assertequals('The provided value cannot be null', $violationOrNull->message);
     }
 }

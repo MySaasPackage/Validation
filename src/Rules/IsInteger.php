@@ -6,22 +6,21 @@ namespace MySaasPackage\Validation\Rules;
 
 use MySaasPackage\Validation\Validatable;
 use MySaasPackage\Validation\Violation;
+use MySaasPackage\Validation\Violations\SimpleViolation;
 
 class IsInteger implements Validatable
 {
     public const KEYWORD = 'integer.mismatch';
 
-    public function validate(mixed $value): RuleResult
+    public function validate(mixed $value): Violation|null
     {
         if (is_int($value)) {
-            return RuleResult::succeeded();
+            return null;
         }
 
-        return RuleResult::failed(
-            new Violation(
-                keyword: self::KEYWORD,
-                message: 'The provided value is not an integer',
-            )
+        return new SimpleViolation(
+            keyword: self::KEYWORD,
+            message: 'The provided value must be an integer',
         );
     }
 }

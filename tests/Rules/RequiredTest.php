@@ -15,17 +15,17 @@ final class RequiredTest extends TestCase
         $this->rule = new Required();
     }
 
-    public function testRequiredRuleSuccessfully(): void
+    public function testSuccessful(): void
     {
-        $result = $this->rule->validate('valid text');
-        $this->assertTrue($result->isSucceeded());
-        $this->assertFalse($result->isFailed());
+        $violationOrNull = $this->rule->validate('valid text');
+        $this->assertSame(null, $violationOrNull);
     }
 
-    public function testStringTypeRuleWithInvalidInput(): void
+    public function testFailed(): void
     {
-        $result = $this->rule->validate();
-        $this->assertFalse($result->isSucceeded());
-        $this->assertTrue($result->isFailed());
+        $violationOrNull = $this->rule->validate();
+        $this->assertNotSame(null, $violationOrNull);
+        $this->assertEquals(Required::KEYWORD, $violationOrNull->keyword);
+        $this->assertequals('The provided value is required', $violationOrNull->message);
     }
 }

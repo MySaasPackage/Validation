@@ -15,20 +15,17 @@ final class MaxLengthTest extends TestCase
         $this->rule = new MaxLength(10);
     }
 
-    public function testMaxLengthRuleSuccessfully(): void
+    public function testSuccessful(): void
     {
-        $result = $this->rule->validate('9999999');
-        $this->assertTrue($result->isSucceeded());
-        $this->assertFalse($result->isFailed());
+        $violationOrNull = $this->rule->validate('9999999');
+        $this->assertSame(null, $violationOrNull);
     }
 
-    public function testStringTypeRuleWithInvalidInput(): void
+    public function testFailed(): void
     {
-        $result = $this->rule->validate('+525599999999');
-        $this->assertFalse($result->isSucceeded());
-        $this->assertTrue($result->isFailed());
-        $violation = $result->getViolation();
-        $this->assertEquals(MaxLength::KEYWORD, $violation->keyword);
-        $this->assertequals('The value must be less than 10 characters', $violation->message);
+        $violationOrNull = $this->rule->validate('+525599999999');
+        $this->assertNotSame(null, $violationOrNull);
+        $this->assertEquals(MaxLength::KEYWORD, $violationOrNull->keyword);
+        $this->assertequals('The provided value must be less than 10 characters', $violationOrNull->message);
     }
 }

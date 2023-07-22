@@ -6,5 +6,5 @@ namespace MySaasPackage\Validation;
 
 interface Validatable
 {
-    public function validate(mixed $value): ValidatableResult;
+    public function validate(mixed $value): Violation|null;
 }

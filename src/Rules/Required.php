@@ -6,22 +6,22 @@ namespace MySaasPackage\Validation\Rules;
 
 use MySaasPackage\Validation\Validatable;
 use MySaasPackage\Validation\Violation;
+use MySaasPackage\Validation\Violations\SimpleViolation;
 
 class Required implements Validatable
 {
     public const KEYWORD = 'value.required';
 
-    public function validate(mixed $value = null): RuleResult
+    public function validate(mixed $value = null): Violation|null
     {
         if (null !== $value) {
-            return RuleResult::succeeded();
+            return null;
         }
 
-        return RuleResult::failed(
-            new Violation(
+        return
+            new SimpleViolation(
                 self::KEYWORD,
-                message: 'The value is required'
-            )
-        );
+                message: 'The provided value is required'
+            );
     }
 }

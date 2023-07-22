@@ -15,20 +15,17 @@ final class IsStringTest extends TestCase
         $this->rule = new IsString();
     }
 
-    public function testStringTypeRuleSuccessfully(): void
+    public function testSuccessful(): void
     {
-        $result = $this->rule->validate('string');
-        $this->assertTrue($result->isSucceeded());
-        $this->assertFalse($result->isFailed());
+        $violationOrNull = $this->rule->validate('string');
+        $this->assertSame(null, $violationOrNull);
     }
 
-    public function testStringTypeRuleWithInvalidInput(): void
+    public function testFailed(): void
     {
-        $result = $this->rule->validate(1);
-        $this->assertFalse($result->isSucceeded());
-        $this->assertTrue($result->isFailed());
-        $violation = $result->getViolation();
-        $this->assertEquals(IsString::KEYWORD, $violation->keyword);
-        $this->assertequals('The provided value is not a string', $violation->message);
+        $violationOrNull = $this->rule->validate(1);
+        $this->assertNotSame(null, $violationOrNull);
+        $this->assertEquals(IsString::KEYWORD, $violationOrNull->keyword);
+        $this->assertequals('The provided value must be a string', $violationOrNull->message);
     }
 }

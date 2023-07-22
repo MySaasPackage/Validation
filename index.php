@@ -2,77 +2,65 @@
 
 declare(strict_types=1);
 
-$violation = new Violation(
-    keyword: 'schema.mismatch',
-    message: 'The schema is not valid.',
-    path: '/',
-);
-
-$violation->addChild(
-    new Violation(
-        keyword: 'required',
-        message: 'The property `foo` is required.',
-        path: '/foo/',
-    )
-);
-
-$violation->addChild(
-    new Violation(
-        keyword: 'required',
-        message: 'The property `bar` is not valid.',
-        path: '/bar/',
-    )
-);
-
-$collection = new Violation(
-    keyword: 'collection',
-    message: 'The property `baz` is not valid.',
-    path: '/collection/',
-);
-
-$collection->addChild(
-    new Violation(
-        keyword: 'not-string',
-        message: 'The property `baz` is not valid.',
-        path: '/baz/[0]/',
-    )
-);
-
-$collection->addChild(
-    new Violation(
-        keyword: 'not-string',
-        message: 'The property `baz` is not valid.',
-        path: '/baz/[1]/',
-    )
-);
-
-$violation->addChild($collection);
-
-$violation->addChild(
-    new Violation(
-        keyword: 'required',
-        message: 'The property `qux` is required.',
-        path: '/qux/',
-    )
-);
-
-function recursivePrint(Violation $violation, int $level = 0): void
+class FieldViolation implements Violation
 {
-    echo str_repeat(' ', $level * 2);
-    echo $violation->keyword;
-    echo ' - ';
-    echo $violation->message;
-    echo ' - ';
-    echo $violation->path;
-    echo PHP_EOL;
+    protected Violation|null $sibling = null;
 
-    if (null !== $violation->getChildren()) {
-        recursivePrint($violation->getChildren(), $level + 1);
+    public function __construct(
+        public readonly string $field,
+        public readonly Violation $violation
+    ) {
     }
 
-    if (null !== $violation->getSibling()) {
-        recursivePrint($violation->getSibling(), $level);
+    public function hasSibling(): bool
+    {
+        return null !== $this->sibling;
+    }
+
+    public function addSibling(Violation $sibling): Violation
+    {
+        if ($this->hasSibling()) {
+            $this->sibling->addSibling($sibling);
+        } else {
+            $this->sibling = $sibling;
+        }
+
+        return $this;
+    }
+
+    public function __toArray(): array
+    {
+        return [$this->field => $this->violation->__toArrayWithSiblings()];
+    }
+
+    public function __toArrayWithSiblings(): array
+    {
+        $output = $this->__toArray();
+
+        if ($this->hasSibling()) {
+            return array_merge($output, $this->sibling->__toArrayWithSiblings());
+        }
+
+        return $output;
     }
 }
 
-recursivePrint($violation);
+$emailViolation = (new SimpleViolation(keyword: 'required'))->addSibling((new SimpleViolation(keyword: 'string'))->addSibling(new SimpleViolation(keyword: 'email')));
+$phoneViolation = (new SimpleViolation(keyword: 'required'))->addSibling((new SimpleViolation(keyword: 'string'))->addSibling(new SimpleViolation(keyword: 'phone')));
+
+$emailFieldViolation = new FieldViolation(field: 'email', violation: $emailViolation);
+$email2FieldViolation = new FieldViolation(field: 'email', violation: $emailViolation);
+$phoneFieldViolation = new FieldViolation(field: 'phone', violation: $phoneViolation);
+$phone2FieldViolation = new FieldViolation(field: 'phone', violation: $phoneViolation);
+
+$emailFieldViolation->addSibling($phoneFieldViolation);
+$email2FieldViolation->addSibling($phone2FieldViolation);
+
+$collectionViolation = (new SimpleViolation(keyword: 'required'))
+    ->addSibling((new CollectionViolation($emailViolation))
+        ->addSibling(new CollectionViolation($emailViolation)));
+
+$collectionFieldViolation = new FieldViolation(field: 'list', violation: $collectionViolation);
+
+$nestedFieldViolation = new FieldViolation(field: 'nested', violation: $emailFieldViolation);
+echo json_encode($collectionViolation->__toArrayWithSiblings(), JSON_PRETTY_PRINT);

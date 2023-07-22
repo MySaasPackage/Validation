@@ -8,6 +8,7 @@ use InvalidArgumentException;
 use MySaasPackage\Validation\Utils\MessageFormatter;
 use MySaasPackage\Validation\Validatable;
 use MySaasPackage\Validation\Violation;
+use MySaasPackage\Validation\Violations\SimpleViolation;
 
 class MaxLength implements Validatable
 {
@@ -17,23 +18,21 @@ class MaxLength implements Validatable
         protected string|int $maxLength,
     ) {
         if (!is_numeric($maxLength)) {
-            throw new InvalidArgumentException('MaxLength param must be a number');
+            throw new InvalidArgumentException('MaxLength param must be a valid number');
         }
 
         $this->maxLength = (int) $maxLength;
     }
 
-    public function validate(mixed $value): RuleResult
+    public function validate(mixed $value): Violation|null
     {
         if (is_string($value) && strlen($value) <= $this->maxLength) {
-            return RuleResult::succeeded();
+            return null;
         }
 
-        return RuleResult::failed(
-            new Violation(
-                keyword: self::KEYWORD,
-                message: MessageFormatter::format('The value must be less than {maxLength} characters', ['maxLength' => $this->maxLength])
-            )
+        return new SimpleViolation(
+            keyword: self::KEYWORD,
+            message: MessageFormatter::format('The provided value must be less than {maxLength} characters', ['maxLength' => $this->maxLength])
         );
     }
 }

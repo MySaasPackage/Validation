@@ -15,20 +15,17 @@ final class IsPhoneTest extends TestCase
         $this->rule = new IsPhone();
     }
 
-    public function testPhoneTypeRuleSuccessfully(): void
+    public function testSuccessful(): void
     {
-        $result = $this->rule->validate('+52559999999');
-        $this->assertTrue($result->isSucceeded());
-        $this->assertFalse($result->isFailed());
+        $violationOrNull = $this->rule->validate('+52559999999');
+        $this->assertSame(null, $violationOrNull);
     }
 
-    public function testStringTypeRuleWithInvalidInput(): void
+    public function testFailed(): void
     {
-        $result = $this->rule->validate('invalid');
-        $this->assertFalse($result->isSucceeded());
-        $this->assertTrue($result->isFailed());
-        $violation = $result->getViolation();
-        $this->assertEquals(IsPhone::KEYWORD, $violation->keyword);
-        $this->assertequals('The provided value is not a phone', $violation->message);
+        $violationOrNull = $this->rule->validate('invalid');
+        $this->assertNotSame(null, $violationOrNull);
+        $this->assertEquals(IsPhone::KEYWORD, $violationOrNull->keyword);
+        $this->assertequals('The provided value must be a valid phone', $violationOrNull->message);
     }
 }

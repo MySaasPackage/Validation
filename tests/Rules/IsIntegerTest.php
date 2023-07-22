@@ -15,20 +15,17 @@ final class IsIntegerTest extends TestCase
         $this->rule = new IsInteger();
     }
 
-    public function testIntegerTypeRuleSuccessfully(): void
+    public function testSuccessful(): void
     {
-        $result = $this->rule->validate(8);
-        $this->assertTrue($result->isSucceeded());
-        $this->assertFalse($result->isFailed());
+        $violationOrNull = $this->rule->validate(8);
+        $this->assertSame(null, $violationOrNull);
     }
 
-    public function testIntegerTypeRuleWithInvalidInput(): void
+    public function testFailed(): void
     {
-        $result = $this->rule->validate('8');
-        $this->assertFalse($result->isSucceeded());
-        $this->assertTrue($result->isFailed());
-        $violation = $result->getViolation();
-        $this->assertEquals(IsInteger::KEYWORD, $violation->keyword);
-        $this->assertequals('The provided value is not an integer', $violation->message);
+        $violationOrNull = $this->rule->validate('8');
+        $this->assertNotSame(null, $violationOrNull);
+        $this->assertEquals(IsInteger::KEYWORD, $violationOrNull->keyword);
+        $this->assertequals('The provided value must be an integer', $violationOrNull->message);
     }
 }

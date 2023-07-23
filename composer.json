@@ -1,5 +1,5 @@
 {
-    "name": "eclesi/validation",
+    "name": "mysasspackage/validation",
     "autoload": {
         "psr-4": {
             "MySaasPackage\\Validation\\": "src/"

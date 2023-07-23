@@ -6,7 +6,7 @@ namespace MySaasPackage\Validation\Rules;
 
 use MySaasPackage\Validation\Validatable;
 use MySaasPackage\Validation\Violation;
-use MySaasPackage\Validation\Violations\FieldViolation;
+use MySaasPackage\Validation\Violations\NamedViolation;
 
 class CollectionOf implements Validatable
 {
@@ -32,11 +32,11 @@ class CollectionOf implements Validatable
                 continue;
             }
 
-            if ($violationOrNull instanceof FieldViolation) {
-                $violationOrNull->addSibling(new FieldViolation(sprintf('%s', $key), $keyViolationOrNull));
+            if ($violationOrNull instanceof NamedViolation) {
+                $violationOrNull->addSibling(new NamedViolation(sprintf('%s', $key), $keyViolationOrNull));
             }
 
-            $violationOrNull ??= new FieldViolation(sprintf('%s', $key), $keyViolationOrNull);
+            $violationOrNull ??= new NamedViolation(sprintf('%s', $key), $keyViolationOrNull);
         }
 
         return $violationOrNull;

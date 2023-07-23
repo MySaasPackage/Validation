@@ -6,9 +6,9 @@ namespace MySaasPackage\Validation\Rules;
 
 use MySaasPackage\Validation\Validatable;
 use MySaasPackage\Validation\Violation;
-use MySaasPackage\Validation\Violations\FieldViolation;
+use MySaasPackage\Validation\Violations\NamedViolation;
 
-class Keys implements Validatable
+class ObjectStruct implements Validatable
 {
     public array $keys;
 
@@ -17,7 +17,7 @@ class Keys implements Validatable
         return new self();
     }
 
-    public function key(string $key, Validatable $rule): self
+    public function property(string $key, Validatable $rule): self
     {
         $this->keys[$key] = $rule;
 
@@ -29,19 +29,19 @@ class Keys implements Validatable
         $violationOrNull = null;
 
         foreach ($this->keys as $key => $rule) {
-            $value[$key] ??= null;
+            $property = $value->$key ?? null;
 
-            $keyViolationOrNull = $rule->validate($value[$key]);
+            $keyViolationOrNull = $rule->validate($property);
 
             if (null === $keyViolationOrNull) {
                 continue;
             }
 
-            if ($violationOrNull instanceof FieldViolation) {
-                $violationOrNull->addSibling(new FieldViolation($key, $keyViolationOrNull));
+            if ($violationOrNull instanceof NamedViolation) {
+                $violationOrNull->addSibling(new NamedViolation($key, $keyViolationOrNull));
             }
 
-            $violationOrNull ??= new FieldViolation($key, $keyViolationOrNull);
+            $violationOrNull ??= new NamedViolation($key, $keyViolationOrNull);
         }
 
         return $violationOrNull;

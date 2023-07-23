@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace MySaasPackage\Validation;
 
+use MySaasPackage\Validation\Rules\ArrayStruct;
 use MySaasPackage\Validation\Rules\Chained;
 use MySaasPackage\Validation\Rules\CollectionOf;
-use MySaasPackage\Validation\Rules\Keys;
+use MySaasPackage\Validation\Rules\ObjectStruct;
 
 class Validator
 {
-    public static function scalar(): Chained
+    public static function chain(): Chained
     {
         return new Chained();
     }
@@ -20,8 +21,13 @@ class Validator
         return new CollectionOf($rule);
     }
 
-    public static function structure(): Keys
+    public static function arrayStruct(): ArrayStruct
     {
-        return new Keys();
+        return new ArrayStruct();
+    }
+
+    public static function objectStruct(): ObjectStruct
+    {
+        return new ObjectStruct();
     }
 }

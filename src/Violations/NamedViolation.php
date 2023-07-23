@@ -6,7 +6,7 @@ namespace MySaasPackage\Validation\Violations;
 
 use MySaasPackage\Validation\Violation;
 
-class FieldViolation implements Violation
+class NamedViolation implements Violation
 {
     protected Violation|null $sibling = null;
 

@@ -7,6 +7,7 @@ namespace MySaasPackage\Validation\Rules;
 use MySaasPackage\Validation\Validatable;
 use MySaasPackage\Validation\Violation;
 use MySaasPackage\Validation\Violations\NamedViolation;
+use MySaasPackage\Validation\Violations\SimpleViolation;
 
 class CollectionOf implements Validatable
 {
@@ -23,6 +24,10 @@ class CollectionOf implements Validatable
     public function validate(mixed $value): Violation|null
     {
         $violationOrNull = null;
+
+        if (!is_array($value)) {
+            return new SimpleViolation(keyword: 'array.mismatch', message: 'The provided value must be an array');
+        }
 
         foreach ($value as $key => $item) {
             $keyViolationOrNull = $this->rule->validate($item);

@@ -7,8 +7,9 @@ namespace MySaasPackage\Validation\Rules;
 use MySaasPackage\Validation\Validatable;
 use MySaasPackage\Validation\Violation;
 use MySaasPackage\Validation\Violations\NamedViolation;
+use MySaasPackage\Validation\Violations\SimpleViolation;
 
-class ArrayStruct implements Validatable
+class ArrayStructure implements Validatable
 {
     public array $keys;
 
@@ -27,6 +28,10 @@ class ArrayStruct implements Validatable
     public function validate(mixed $value): Violation|null
     {
         $violationOrNull = null;
+
+        if (!is_array($value)) {
+            return new SimpleViolation(keyword: 'array.mismatch', message: 'The provided value must be an array');
+        }
 
         foreach ($this->keys as $key => $rule) {
             $value[$key] ??= null;

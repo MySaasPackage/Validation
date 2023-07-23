@@ -23,8 +23,8 @@ final class ValidatorTest extends TestCase
 
     public function testKeysSuccessful(): void
     {
-        $violationOrNull = Validator::arrayStruct()
-            ->key('name', Validator::arrayStruct()
+        $violationOrNull = Validator::arrayStructure()
+            ->key('name', Validator::arrayStructure()
                 ->key('firstName', Validator::chain()->required()->string())
                 ->key('lastName', Validator::chain()->required()->string()))
             ->key('email', Validator::chain()->required()->email())
@@ -43,8 +43,8 @@ final class ValidatorTest extends TestCase
 
     public function testPropertiesSuccessful(): void
     {
-        $violationOrNull = Validator::arrayStruct()
-            ->key('name', Validator::arrayStruct()
+        $violationOrNull = Validator::arrayStructure()
+            ->key('name', Validator::arrayStructure()
                 ->key('firstName', Validator::chain()->required()->string())
                 ->key('lastName', Validator::chain()->required()->string()))
             ->key('email', Validator::chain()->required()->email())
@@ -63,38 +63,52 @@ final class ValidatorTest extends TestCase
 
     public function testKeysFailed(): void
     {
-        $dto = new stdClass();
-        $dto->name = new stdClass();
-        $dto->name->firstName = 'John';
-        $dto->name->lastName = 'Doe';
-        $dto->email = 'john@gmail.com';
-        $dto->phone = '+5215555555555';
-        $dto->address = ['some address'];
-        $dto->leaders = [['name' => 'John Doe']];
+        $mike = new stdClass();
+        $mike->name = 'Mike';
+        $mike->email = 'mike@gmail.com';
 
-        $violationOrNull = Validator::objectStruct()
-            ->property('name', Validator::objectStruct()
-                ->property('firstName', Validator::chain()->required()->string())
-                ->property('lastName', Validator::chain()->required()->string()))
+        $mark = new stdClass();
+        $mark->name = 'Mark';
+        $mark->email = 'mark@gamil.com';
+
+        $john = new stdClass();
+        $john->name = new stdClass();
+        $john->name->firstName = 'John';
+        $john->name->lastName = 'Doe';
+        $john->email = 'john@gmail.com';
+        $john->phone = '+5215555555555';
+        $john->address = ['some address'];
+        $john->leaders = [$mike, $mark];
+
+        $leaderValidator = Validator::objectStructure()
+            ->property('name', Validator::chain()->required()->string())
+            ->property('email', Validator::chain()->required()->email());
+
+        $nameValidator = Validator::objectStructure()
+            ->property('firstName', Validator::chain()->required()->string())
+            ->property('lastName', Validator::chain()->required()->string());
+
+        $violationOrNull = Validator::objectStructure()
+            ->property('name', $nameValidator)
             ->property('email', Validator::chain()->required()->email())
             ->property('phone', Validator::chain()->required()->phone())
-            ->property('address', Validator::collectionOf(Validator::chain()->required()->string()))
-            ->property('leaders', Validator::collectionOf(Validator::arrayStruct()->key('name', Validator::chain()->required()->string())))
-            ->validate($dto);
+            ->property('address', Validator::chain()->collectionOf(Validator::chain()->required()->string()))
+            ->property('leaders', Validator::chain()->count(2)->collectionOf($leaderValidator))
+            ->validate($john);
 
         $this->assertSame(null, $violationOrNull);
     }
 
     public function testCollectionSuccessful(): void
     {
-        $violationOrNull = Validator::collectionOf(Validator::chain()->required()->email())->validate(['alef@gmail.com', 'sara@gmail.com']);
+        $violationOrNull = Validator::chain()->collectionOf(Validator::chain()->required()->email())->validate(['alef@gmail.com', 'sara@gmail.com']);
 
         $this->assertSame(null, $violationOrNull);
     }
 
     public function testCollectionFailed(): void
     {
-        $violationOrNull = Validator::collectionOf(Validator::chain()->required()->email())->validate(['a', 'c']);
+        $violationOrNull = Validator::chain()->collectionOf(Validator::chain()->required()->email())->validate(['a', 'c']);
 
         $this->assertNotSame(null, $violationOrNull);
     }

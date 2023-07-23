@@ -78,6 +78,16 @@ class Chained implements Validatable
         return $this->add(new NotNull());
     }
 
+    public function array(): self
+    {
+        return $this->add(new IsArray());
+    }
+
+    public function object(): self
+    {
+        return $this->add(new IsObject());
+    }
+
     public function length(string|int $min, string|int $max): self
     {
         return $this->add(new Length(
@@ -99,6 +109,26 @@ class Chained implements Validatable
     public function count(int $count): self
     {
         return $this->add(new Count($count));
+    }
+
+    public function collectionOf(Validatable $rule): self
+    {
+        return $this->add(new CollectionOf($rule));
+    }
+
+    public function structure(ArrayStructure|ObjectStructure $structure): self
+    {
+        return $this->add($structure);
+    }
+
+    public function arrayStructure(ArrayStructure $structure): self
+    {
+        return $this->add($structure);
+    }
+
+    public function objectStructure(ObjectStructure $structure): self
+    {
+        return $this->add($structure);
     }
 
     public function validate(mixed $value): Violation|null

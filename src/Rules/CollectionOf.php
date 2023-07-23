@@ -24,7 +24,6 @@ class CollectionOf implements Validatable
     {
         $violationOrNull = null;
 
-        $value ??= [null];
         foreach ($value as $key => $item) {
             $keyViolationOrNull = $this->rule->validate($item);
 

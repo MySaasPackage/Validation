@@ -20,8 +20,12 @@ class Count implements Validatable
 
     public function validate(mixed $value): Violation|null
     {
-        echo 'Value: '.$value.PHP_EOL;
-        echo 'Expected: '.$this->expected.PHP_EOL;
+        if (false === is_countable($value)) {
+            return new SimpleViolation(
+                keyword: self::KEYWORD,
+                message: 'The provided value is not countable'
+            );
+        }
 
         if (count($value) === $this->expected) {
             return null;
@@ -29,7 +33,7 @@ class Count implements Validatable
 
         return new SimpleViolation(
             keyword: self::KEYWORD,
-            message: MessageFormatter::format('The provided structure does not have exactly {number} elements', ['number' => $this->expected])
+            message: MessageFormatter::format('The provided value does not have exactly {number} elements', ['number' => $this->expected])
         );
     }
 }

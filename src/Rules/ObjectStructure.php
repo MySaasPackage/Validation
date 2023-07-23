@@ -7,8 +7,9 @@ namespace MySaasPackage\Validation\Rules;
 use MySaasPackage\Validation\Validatable;
 use MySaasPackage\Validation\Violation;
 use MySaasPackage\Validation\Violations\NamedViolation;
+use MySaasPackage\Validation\Violations\SimpleViolation;
 
-class ObjectStruct implements Validatable
+class ObjectStructure implements Validatable
 {
     public array $keys;
 
@@ -27,6 +28,10 @@ class ObjectStruct implements Validatable
     public function validate(mixed $value): Violation|null
     {
         $violationOrNull = null;
+
+        if (!is_object($value)) {
+            return new SimpleViolation(keyword: 'object.mismatch', message: 'The provided value must be an object');
+        }
 
         foreach ($this->keys as $key => $rule) {
             $property = $value->$key ?? null;

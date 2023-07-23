@@ -8,13 +8,15 @@ use MySaasPackage\Validation\Validatable;
 use MySaasPackage\Validation\Violation;
 use MySaasPackage\Validation\Violations\SimpleViolation;
 
+use function is_null;
+
 class NotNull implements Validatable
 {
     public const KEYWORD = 'value.null';
 
     public function validate(mixed $value = null): Violation|null
     {
-        if (!empty($value)) {
+        if (!is_null($value)) {
             return null;
         }
 

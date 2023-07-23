@@ -83,6 +83,11 @@ class Chained implements Validatable
         return $this->add(new IsArray());
     }
 
+    public function uuid(): self
+    {
+        return $this->add(new IsUuid());
+    }
+
     public function object(): self
     {
         return $this->add(new IsObject());

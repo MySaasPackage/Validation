@@ -8,6 +8,8 @@ use MySaasPackage\Validation\Validatable;
 use MySaasPackage\Validation\Violation;
 use MySaasPackage\Validation\Violations\SimpleViolation;
 
+use function is_int;
+
 class IsInteger implements Validatable
 {
     public const KEYWORD = 'integer.mismatch';

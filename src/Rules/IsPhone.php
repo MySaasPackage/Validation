@@ -8,6 +8,8 @@ use MySaasPackage\Validation\Validatable;
 use MySaasPackage\Validation\Violation;
 use MySaasPackage\Validation\Violations\SimpleViolation;
 
+use function preg_match;
+
 class IsPhone implements Validatable
 {
     public const KEYWORD = 'phone.mismatch';

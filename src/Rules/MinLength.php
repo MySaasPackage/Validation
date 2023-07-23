@@ -10,6 +10,10 @@ use MySaasPackage\Validation\Validatable;
 use MySaasPackage\Validation\Violation;
 use MySaasPackage\Validation\Violations\SimpleViolation;
 
+use function is_numeric;
+use function is_string;
+use function strlen;
+
 class MinLength implements Validatable
 {
     public const KEYWORD = 'min.length.mismatch';

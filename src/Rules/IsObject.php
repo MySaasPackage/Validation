@@ -8,6 +8,8 @@ use MySaasPackage\Validation\Validatable;
 use MySaasPackage\Validation\Violation;
 use MySaasPackage\Validation\Violations\SimpleViolation;
 
+use function is_array;
+
 class IsObject implements Validatable
 {
     public const KEYWORD = 'object.mismatch';

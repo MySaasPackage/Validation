@@ -9,6 +9,9 @@ use MySaasPackage\Validation\Validatable;
 use MySaasPackage\Validation\Violation;
 use MySaasPackage\Validation\Violations\SimpleViolation;
 
+use function count;
+use function is_countable;
+
 class Count implements Validatable
 {
     public const KEYWORD = 'count.mismatch';

@@ -9,6 +9,8 @@ use MySaasPackage\Validation\Violation;
 use MySaasPackage\Validation\Violations\NamedViolation;
 use MySaasPackage\Validation\Violations\SimpleViolation;
 
+use function is_object;
+
 class ObjectStructure implements Validatable
 {
     public array $keys;

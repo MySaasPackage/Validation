@@ -61,7 +61,7 @@ final class ValidatorTest extends TestCase
         $this->assertSame(null, $violationOrNull);
     }
 
-    public function testKeysFailed(): void
+    public function testObjectStructuteSuccessful(): void
     {
         $mike = new stdClass();
         $mike->name = 'Mike';
@@ -80,20 +80,20 @@ final class ValidatorTest extends TestCase
         $john->address = ['some address'];
         $john->leaders = [$mike, $mark];
 
-        $leaderValidator = Validator::objectStructure()
+        $propertyLeaderValidator = Validator::objectStructure()
             ->property('name', Validator::chain()->required()->string())
             ->property('email', Validator::chain()->required()->email());
 
-        $nameValidator = Validator::objectStructure()
+        $propertyNameValidator = Validator::objectStructure()
             ->property('firstName', Validator::chain()->required()->string())
             ->property('lastName', Validator::chain()->required()->string());
 
         $violationOrNull = Validator::objectStructure()
-            ->property('name', $nameValidator)
+            ->property('name', $propertyNameValidator)
             ->property('email', Validator::chain()->required()->email())
             ->property('phone', Validator::chain()->required()->phone())
             ->property('address', Validator::chain()->collectionOf(Validator::chain()->required()->string()))
-            ->property('leaders', Validator::chain()->count(2)->collectionOf($leaderValidator))
+            ->property('leaders', Validator::chain()->count(2)->collectionOf($propertyLeaderValidator))
             ->validate($john);
 
         $this->assertSame(null, $violationOrNull);

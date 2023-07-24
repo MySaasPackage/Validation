@@ -1,5 +1,5 @@
 {
-    "name": "mysasspackage/validation",
+    "name": "mysaaspackage/validation",
     "type": "library",
     "description": "Provides an chaianable API for validate data",
     "keywords": ["validation", "schema"],

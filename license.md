@@ -1,19 +1,19 @@
-Licenses
-========
+Copyright (c) 2023-present Alef Castelo
 
-Good news! You may use MySassPackage Validation under the terms of either
-the New BSD License or the GNU General Public License (GPL) version 2 or 3.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished
+to do so, subject to the following conditions:
 
-The BSD License is recommended for most projects. It is easy to understand and it
-places almost no restrictions on what you can do with the framework. If the GPL
-fits better to your project, you can use the framework under this license.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-You don't have to notify anyone which license you are using. You can freely
-use MySassPackage Validation in commercial projects as long as the copyright header
-remains intact.
-
-Please be advised that the name "MySassPackage Validation" is a protected trademark and its
-usage has some limitations. So please do not use word "MySassPackage" in the name of your
-project or top-level domain, and choose a name that stands on its own merits.
-If your stuff is good, it will not take long to establish a reputation for yourselves.
-
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.

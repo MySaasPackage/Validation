@@ -18,10 +18,9 @@ class Required implements Validatable
             return null;
         }
 
-        return
-            new SimpleViolation(
-                self::KEYWORD,
-                message: 'The provided value is required'
-            );
+        return new SimpleViolation(
+            self::KEYWORD,
+            message: 'The provided value is required'
+        );
     }
 }

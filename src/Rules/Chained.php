@@ -48,6 +48,11 @@ class Chained implements Validatable
         return $this->add(new Required());
     }
 
+    public function optional(): self
+    {
+        return $this->add(new Optional());
+    }
+
     public function string(): self
     {
         return $this->add(new IsString());
@@ -149,6 +154,10 @@ class Chained implements Validatable
 
     protected function validateChain(ChainNode $node, mixed $value): Violation|null
     {
+        if ($node->rule instanceof Optional && null === $value) {
+            return null;
+        }
+
         $violationOrNull = $node->validate($value);
 
         if ($node->doNotHaveNext()) {

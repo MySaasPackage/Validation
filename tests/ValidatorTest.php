@@ -41,6 +41,25 @@ final class ValidatorTest extends TestCase
         $this->assertSame(null, $violationOrNull);
     }
 
+    public function testKeysWithOptionalSuccessful(): void
+    {
+        $violationOrNull = Validator::arrayStructure()
+            ->key('name', Validator::arrayStructure()
+                ->key('firstName', Validator::chain()->required()->string())
+                ->key('lastName', Validator::chain()->required()->string()))
+            ->key('email', Validator::chain()->required()->email())
+            ->key('phone', Validator::chain()->optional()->phone())
+            ->validate([
+                'name' => [
+                    'firstName' => 'John',
+                    'lastName' => 'Doe',
+                ],
+                'email' => 'john@gmail.com',
+            ]);
+
+        $this->assertSame(null, $violationOrNull);
+    }
+
     public function testPropertiesSuccessful(): void
     {
         $violationOrNull = Validator::arrayStructure()

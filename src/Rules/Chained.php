@@ -93,6 +93,11 @@ class Chained implements Validatable
         return $this->add(new IsUuid());
     }
 
+    public function enum(string $enum): self
+    {
+        return $this->add(new IsEnumValid($enum));
+    }
+
     public function object(): self
     {
         return $this->add(new IsObject());
